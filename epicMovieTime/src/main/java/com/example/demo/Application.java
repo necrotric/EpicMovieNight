@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 public class Application {
     @Autowired
     private MovieRepository repository;
+    private String findmovie ="";
     private static final Logger log = LoggerFactory.getLogger(Application.class);
 
     public static void main(String args[]) {
@@ -31,9 +32,16 @@ public class Application {
             Movies movie = restTemplate.getForObject(
                     "http://www.omdbapi.com/?i=tt3896198&apikey=ea1db5cc", Movies.class);
             log.info(movie.toString());
-            for (Movies movies : repository.findMovieByTitle("Ax")) {
+            for (Movies movies : repository.findMovieByTitle("Guardians of the Galaxy Vol. 2")) {
+                findmovie= movie.getTitle();
+                System.out.println(findmovie);
           System.out.println(movies + "Found it");
-                repository.save(movie);
+
+         }
+         if(findmovie == ""){
+             System.out.println("got here");
+             repository.save(movie);
+             findmovie= "";
          }
             //repository.save(movie);
         };
