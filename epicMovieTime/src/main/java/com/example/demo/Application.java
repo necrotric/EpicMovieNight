@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.mongodb.client.model.Filters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +33,14 @@ public class Application {
             Movies movie = restTemplate.getForObject(
                     "http://www.omdbapi.com/?i=tt3896198&apikey=ea1db5cc", Movies.class);
             log.info(movie.toString());
-            for (Movies movies : repository.findMovieByTitle("Guardians of the Galaxy Vol. 2")) {
-                findmovie= movie.getTitle();
-                System.out.println(findmovie);
-          System.out.println(movies + "Found it");
 
+
+            for (Movies movies : repository.findAll()){
+                if(movies.getTitle().contains("asd")) {
+                    findmovie = movie.getTitle();
+                    System.out.println(findmovie);
+                    System.out.println(movies + "Found it");
+                }
          }
          if(findmovie == ""){
              System.out.println("got here");
