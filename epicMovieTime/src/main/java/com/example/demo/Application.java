@@ -33,18 +33,25 @@ public class Application {
             Movies movie = restTemplate.getForObject(
                     "http://www.omdbapi.com/?i=tt3896198&apikey=ea1db5cc", Movies.class);
             log.info(movie.toString());
-
+            String input = "Galaxy";
 
             for (Movies movies : repository.findAll()){
-                if(movies.getTitle().contains("asd")) {
+                if(movies.getTitle().contains(input)) {
                     findmovie = movie.getTitle();
                     System.out.println(findmovie);
-                    System.out.println(movies + "Found it");
+                    System.out.println(movies + " \nFound it");
                 }
          }
          if(findmovie == ""){
              System.out.println("got here");
-             repository.save(movie);
+             Movies apiMovie = restTemplate.getForObject(
+                     "http://www.omdbapi.com/?i=tt3896198&apikey=ea1db5cc", Movies.class);
+             log.info(apiMovie.toString());
+             if(apiMovie!=null){
+                 System.out.println("inside APIMOVIE");
+                 System.out.println(apiMovie.getTitle() + "Printing movie name from API");
+                 repository.save(apiMovie);
+             }
              findmovie= "";
          }
             //repository.save(movie);
