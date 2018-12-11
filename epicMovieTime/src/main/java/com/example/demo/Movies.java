@@ -7,21 +7,41 @@ import com.fasterxml.jackson.annotation.JsonTypeId;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Movies {
-
-    @Id
-    private String id;
+    @JsonProperty("imdbID")
+    private String imdbID;
     @JsonProperty("Title")
     private String title = "";
     @JsonProperty("Year")
     private String year = "";
     @JsonProperty("Released")
     private String released = "";
+    @JsonProperty("Country")
+    private String country = "";
     @JsonProperty("Runtime")
     private String runtime = "";
     @JsonProperty("Genre")
     private String genre = "";
     @JsonProperty("Plot")
     private String shortplot = "";
+    public Movies(){
+
+    }
+
+    public String getImdbID() {
+        return imdbID;
+    }
+
+    public void setImdbID(String imdbID) {
+        this.imdbID = imdbID;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
     public String getTitle() {
         return title;
