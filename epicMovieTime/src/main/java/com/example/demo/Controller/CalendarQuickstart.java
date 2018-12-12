@@ -52,6 +52,8 @@ public class CalendarQuickstart {
                 .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
                 .setAccessType("offline")
                 .build();
+        System.out.println(flow.getCredentialDataStore());
+        //System.out.println(getCredentials(HTTP_TRANSPORT));
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
@@ -71,6 +73,7 @@ public class CalendarQuickstart {
                 .setOrderBy("startTime")
                 .setSingleEvents(true)
                 .execute();
+
         List<Event> items = events.getItems();
         if (items.isEmpty()) {
             System.out.println("No upcoming events found.");
