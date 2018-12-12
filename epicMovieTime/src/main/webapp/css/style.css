@@ -1,0 +1,93 @@
+@import url(https://fonts.googleapis.com/css?family=Exo:100);
+
+* {margin: 0; padding: 0; border: 0 none;}
+html, body {height: 100%; width: 100%; font-size: 1rem; font-family: 'Exo', sans-serif; font-weight: 100;}
+
+.bgSlider {
+    position: relative;
+    height: 100vh;
+    max-height: 100vh;
+    width: auto;
+    min-width: 100vw;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.slider {
+    animation: sliding 25s ease-out 0s backwards infinite;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 500%;
+    height: 100%;
+}
+
+.slide {
+    display: inline-block;
+    position: relative;
+    width: 20%;
+    height: 100%;
+    background-attachment: fixed;
+    background-position: center center;
+    background-size: cover;
+}
+.slide span {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 0 5vh 5vh 0;
+    color: #FFF;
+    position: absolute;
+    left: 0;
+    top: 40vh;
+    font-size: 15vh;
+    line-height: 20vh;
+    border: 1px solid rgba(255,255,255,.45);
+    border-left: 0 none;
+}
+
+.one {
+    background-image: url(http://www.venom.movie/site/images/share/shareImage.jpg);}
+.two {
+    background-image: url(https://images-na.ssl-images-amazon.com/images/I/91BeqKNhb3L._RI_.jpg);}
+.three {
+    background-image: url(https://mcucosmic.com/wp-content/uploads/2018/12/endgame-logo-1024x576.jpeg);}
+.four {
+    background-image: url(https://cdn-images-1.medium.com/max/1600/1*TkU7RjByHubDi7etz9A87w.jpeg);}
+
+@keyframes sliding {
+    0% {left: 0%; }
+    10% {left: 0%; }
+    20% {left: -100%; }
+    30% {left: -100%; }
+    40% {left: -200%; }
+    50% {left: -200%; }
+    60% {left: -300%; }
+    70% {left: -300%; }
+    75% {left: 0; }
+}
+
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.navbar a,p {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.navbar a:hover {
+    background: #ddd;
+    color: black;
+}
+
+#info {
+    float: right;
+}
