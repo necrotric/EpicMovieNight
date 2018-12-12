@@ -40,8 +40,9 @@ html, body {height: 100%; width: 100%; font-size: 1rem; font-family: 'Exo', sans
     top: 40vh;
     font-size: 15vh;
     line-height: 20vh;
-    border: 1px solid rgba(255,255,255,.45);
+    border: 1px solid rgba(255, 255, 255, .45);
     border-left: 0 none;
+    cursor: default;
 }
 
 .one {
