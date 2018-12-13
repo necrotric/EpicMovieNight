@@ -1,7 +1,8 @@
-package com.example.demo;
+package com.example.demo.Repository;
 
 import java.util.List;
 
+import com.example.demo.Classes.Movies;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface MovieRepository extends MongoRepository<Movies, String> {

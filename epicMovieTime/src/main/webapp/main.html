@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Epic Movie Nights</title>
+
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+
+<div class="month">
+    <ul>
+        <li class="prev">&#10094;</li>
+        <li class="next">&#10095;</li>
+        <li>
+            December<br>
+            <span style="font-size:18px">2018</span>
+        </li>
+    </ul>
+</div>
+
+<ul class="weekdays">
+    <li>Mo</li>
+    <li>Tu</li>
+    <li>We</li>
+    <li>Th</li>
+    <li>Fr</li>
+    <li>Sa</li>
+    <li>Su</li>
+</ul>
+
+<ul class="days">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <li>7</li>
+    <li>8</li>
+    <li>9</li>
+    <li>10</li>
+    <li>11</li>
+    <li><span class="active">12</span></li>
+    <li>13</li>
+    <li>14</li>
+    <li>15</li>
+    <li>16</li>
+    <li>17</li>
+    <li>18</li>
+    <li>19</li>
+    <li>20</li>
+    <li>21</li>
+    <li>22</li>
+    <li>23</li>
+    <li>24</li>
+    <li>25</li>
+    <li>26</li>
+    <li>27</li>
+    <li>28</li>
+    <li>29</li>
+    <li>30</li>
+    <li>31</li>
+</ul>
+
+<div class="navbar">
+    <a href="#Logout" onclick="document.getElementById('Logout').style.display='block'" style="width:auto;">Logout</a>
+    <p>|</p>
+    <a href="#Search" onclick=openSearch();>Search</a>
+    <a href="info.html" id="info">Info</a>
+</div>
+
+<div id="Search" class="overlay">
+    <span class="closebtn" onclick="closeSearch()" title="Close Overlay">×</span>
+    <div class="overlay-content">
+                <form autocomplete="off">
+                    <div class="autocomplete">
+                        <input type="text" placeholder="Search.." id="searching" name="search">
+                        <button id="submitBt" type="submit"><i class="fa fa-search"></i></button>
+                        <ul class="search-group" id="result"></ul>
+                    </div>
+                </form>
+    </div>
+</div>
+
+</div>
+
+<script>
+    function openSearch() {
+        document.getElementById("Search").style.display = "block";
+    }
+
+    function closeSearch() {
+        document.getElementById("Search").style.display = "none";
+    }
+</script>
+
+<script type="text/javascript" src="js/search.js"></script>
+<script>document.getElementById("searching").innerHTML = autocomplete();</script>
+
+</body>
+</html>
