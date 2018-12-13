@@ -33,7 +33,7 @@ public class MainController {
                 movies.get(i).setImdbID(s.getSearch().get(i).getImdbID());
 
             }}
-        return movies ;
+        return movies;
     }
     @GetMapping("/title/movie")
     public Movies movies(@RequestParam String imdb){
