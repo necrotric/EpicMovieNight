@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Epic Movie Nights</title>
@@ -65,7 +65,7 @@
 </ul>
 
 <div class="navbar">
-    <a href="#Logout" onclick="document.getElementById('Logout').style.display='block'" style="width:auto;">Logout</a>
+    <a href="#Logout" onclick="signOut();" style="width:auto;">Logout</a>
     <p>|</p>
     <a href="#Search" onclick=openSearch();>Search</a>
     <a href="info.html" id="info">Info</a>
@@ -76,14 +76,12 @@
     <div class="overlay-content">
                 <form autocomplete="off">
                     <div class="autocomplete">
-                        <input type="text" placeholder="Search.." id="searching" name="search">
+                        <input type="text" placeholder="Search.." id="userSearch" name="search">
                         <button id="submitBt" type="submit"><i class="fa fa-search"></i></button>
                         <ul class="search-group" id="result"></ul>
                     </div>
                 </form>
     </div>
-</div>
-
 </div>
 
 <script>
@@ -97,7 +95,7 @@
 </script>
 
 <script type="text/javascript" src="js/search.js"></script>
-<script>document.getElementById("searching").innerHTML = autocomplete();</script>
+<script>document.getElementById("userSearch").innerHTML = autocomplete();</script>
 
 </body>
 </html>

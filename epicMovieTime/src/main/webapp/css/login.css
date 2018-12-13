@@ -7,23 +7,10 @@ input[type=text], input[type=password] {
     box-sizing: border-box;
 }
 
-button {
-    color: white;
-    padding: 25px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-}
-
 #loginBt{
-    background: url(../image/sign-in-button.png) no-repeat;
-    background-size: 70%;
-    background-position: center;
-}
-
-button:hover {
-    opacity: 0.8;
+    position: relative;
+    left: 20%;
+    padding-top: 3%;
 }
 
 .gimage {
@@ -61,6 +48,7 @@ img.avatar {
     border: 1px solid #888;
     width: 20%;
     opacity: 0.85;
+    border-radius: 25px;
 }
 
 .close {
