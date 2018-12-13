@@ -20,26 +20,29 @@ public class MainController {
 
     @GetMapping("/title")
     public ArrayList<Movies> search(@RequestParam String title ) {
-        int counter=0;
+
         ArrayList<Movies> movies = new ArrayList<>() ;
         RestTemplate restTemplate = new RestTemplate();
-        List<Search> newSearch = Collections.singletonList(restTemplate.getForObject(
-                "http://www.omdbapi.com/?s="+ title + "&apikey=ea1db5cc", Search.class));
+        if(title.length()>2) {
+            List<Search> newSearch = Collections.singletonList(restTemplate.getForObject(
+                    "http://www.omdbapi.com/?s=" + title + "&apikey=ea1db5cc", Search.class));
+
         for (Search s: newSearch) {
             for(int i = 0; i<s.getSearch().size(); i++){
                 Movies movie = new Movies();
                 movies.add(movie);
                 movies.get(i).setTitle(s.getSearch().get(i).getTitle());
                 movies.get(i).setImdbID(s.getSearch().get(i).getImdbID());
+                movies.get(i).setYear(s.getSearch().get(i).getYear());
 
-            }}
+            }}}
         return movies ;
     }
     @GetMapping("/title/movie")
     public Movies movies(@RequestParam String imdb){
         RestTemplate restTemplate = new RestTemplate();
         getFromDB = repository.findMoviesByimdbID(imdb);
-        System.out.println(getFromDB);
+        System.out.println("Inside API ;)"+ getFromDB);
         if(getFromDB == null) {
             movies = restTemplate.getForObject(
                     "http://www.omdbapi.com/?i=" + imdb + "&apikey=ea1db5cc", Movies.class);

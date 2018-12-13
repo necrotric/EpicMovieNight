@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>You are here</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" />
+</head>
+<body>
+<div id = "root" class="container">
+    <div class="row">
+        <div class="twelve columns">
+            <h1>My Search</h1>
+            <form>
+                <input v-on:keyup="fetchPosts" v-model="mainSearch" placeholder="Search here">
+                <ul v-if="showmovie===true">
+                    <li>Title: {{ movieSearch.Title }}</li>
+                    <li>Released: {{ movieSearch.Year }}</li>
+                    <li>Genre: {{ movieSearch.Genre }}</li>
+                    <li>Plot: {{ movieSearch.Runtime }}</li>
+                    <li>Runtime: {{ movieSearch.Plot}}</li>
+                    <li>Country: {{ movieSearch.Country }}</li>
+                </ul>
+            </form>
+            <button v-on:click="movieInfo" v-model="search"></button>
+            <ul v-if="showSearchList===true">
+                <li v-for="movie in movies">
+                    <h3 v-on:click="mainSearch= movie.Title, search= movie.imdbID, showmovie === true, movieInfo" >{{movie.Title}}</h3>
+                    <p>{{movie.Year}}</p>
+                </li>
+            </ul>
+            <p>Will this change? ( {{search}})</p>
+        </div>
+    </div>
+</div>
+</body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://vuejs.org/js/vue.js"></script>
+<script>
+    var app = new Vue({
+        el: '#root',
+        data:{
+            movies:[],
+            search: '',
+            mainSearch: '',
+            movieSearch: [],
+            showSearchList : true,
+            showmovie : false
+        },
+        methods:{
+            fetchPosts: function(){
+                this.showSearchList=true;
+                this.showmovie=false
+                axios.get("http://localhost:8080/title/?title=" + this.mainSearch).then(function(response){
+                    this.movies = response.data;
+                    console.log(mainSearch);
+                    console.log(this.mainSearch);
+
+
+                }.bind(this))
+            },
+            movieInfo: function(){
+                this.showSearchList=false;
+                this.showmovie=true
+                axios.get("http://localhost:8080/title/movie/?imdb=" + this.search).then(function(response){
+                    this.movieSearch = response.data;
+                    this.mainSearch = movieSearch.Title;
+                }.bind(this))
+            }
+        }
+    })
+</script>
+</html>
