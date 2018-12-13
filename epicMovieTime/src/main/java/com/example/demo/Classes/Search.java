@@ -1,8 +1,6 @@
-package com.example.demo;
+package com.example.demo.Classes;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.Id;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeId;
 
 import java.util.ArrayList;
 
