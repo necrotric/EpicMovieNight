@@ -222,6 +222,7 @@ body {font-family: Verdana, sans-serif;}
 
 #movieResult li {
     color: whitesmoke;
+    width: 80%;
 }
 
 #autoResult {
@@ -247,7 +248,7 @@ body {font-family: Verdana, sans-serif;}
     position: relative;
     display: inline-block;
     top: 30%;
-    width: 80%;
+    width: 100%;
     left: 2%;
     text-align: left;
     margin: auto;
