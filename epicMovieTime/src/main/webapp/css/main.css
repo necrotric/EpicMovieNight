@@ -73,7 +73,6 @@ body {font-family: Verdana, sans-serif;}
 .days li .active {
     padding: 5px;
     background: #333333;
-    color: white !important
 }
 
 /* Add media queries for smaller screens */
@@ -156,6 +155,7 @@ body {font-family: Verdana, sans-serif;}
     background: url(../image/Search-512.png) no-repeat;
     background-size: 90%;
     background-position: center;
+    outline-style: none;
 }
 
 .overlay button:hover {
@@ -185,7 +185,6 @@ body {font-family: Verdana, sans-serif;}
     padding: 5px;
     height: 36px;
     border-radius: 5px;
-    outline: none;
     color: #b4b4b4;
 }
 
@@ -230,20 +229,6 @@ body {font-family: Verdana, sans-serif;}
     cursor: pointer;
 }
 
-#result {
-    font-weight: lighter;
-    font-size: 16px;
-    position: absolute;
-    left: -40px;
-    width: 350px;
-    cursor: pointer;
-    overflow-y: auto;
-    max-height: 400px;
-    float: left;
-    z-index: 1001;
-    color: #ffffff;
-}
-
 .autocomplete {
     position: relative;
     display: inline-block;
@@ -265,6 +250,5 @@ input[type=text] {
     width: 100%;
 }
 input[type=submit] {
-    background-color: DodgerBlue;
     color: #fff;
 }
