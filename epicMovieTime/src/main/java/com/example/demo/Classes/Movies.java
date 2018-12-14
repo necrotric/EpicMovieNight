@@ -25,6 +25,8 @@ public class Movies {
     private String genre = "";
     @JsonProperty("Plot")
     private String shortplot = "";
+    @JsonProperty("imdbRating")
+    private String rating = "";
     public Movies(){
 
     }

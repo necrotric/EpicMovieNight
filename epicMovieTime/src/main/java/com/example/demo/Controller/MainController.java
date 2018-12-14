@@ -23,7 +23,7 @@ public class MainController {
 
         ArrayList<Movies> movies = new ArrayList<>() ;
         RestTemplate restTemplate = new RestTemplate();
-        if(title.length()>2) {
+        if(title.length()>1) {
             List<Search> newSearch = Collections.singletonList(restTemplate.getForObject(
                     "http://www.omdbapi.com/?s=" + title + "&apikey=ea1db5cc", Search.class));
 

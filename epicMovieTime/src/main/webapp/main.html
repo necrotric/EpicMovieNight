@@ -80,7 +80,7 @@
                         <button v-on:click="movieInfo" v-model="search" type="button" id="submitBt"></button>
                         <ul v-if="showSearchList===true" class="search-group">
                             <li v-for="movie in movies">
-                                <br><br><br><p id="autoResult" v-on:click="mainSearch= movie.Title, search= movie.imdbID, showmovie === true, movieInfo" >{{movie.Title}}</p>
+                                <br><br><br><p id="autoResult" v-on:mouseup="movieInfo" v-on:mousedown="mainSearch= movie.Title, search= movie.imdbID, showmovie === true" >{{movie.Title}}</p>
                             </li>
                         </ul>
                         <br><br><br>
@@ -89,9 +89,10 @@
                             <li>Title: {{ movieSearch.Title }}</li>
                             <li>Released: {{ movieSearch.Year }}</li>
                             <li>Genre: {{ movieSearch.Genre }}</li>
-                            <li>Plot: {{ movieSearch.Runtime }}</li>
-                            <li>Runtime: {{ movieSearch.Plot}}</li>
+                            <li>Runtime: {{ movieSearch.Runtime }}</li>
+                            <li>Plot: {{ movieSearch.Plot}}</li>
                             <li>Country: {{ movieSearch.Country }}</li>
+                            <li>IMDB Rating: {{movieSearch.imdbRating}}</li>
                         </ul>
                     </div>
                 </form>
