@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonTypeId;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Movies {
+    @JsonProperty("Poster")
+    private String poster;
     @JsonProperty("imdbID")
     private String imdbID;
     @JsonProperty("Title")
