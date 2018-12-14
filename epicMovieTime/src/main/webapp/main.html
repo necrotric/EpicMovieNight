@@ -76,9 +76,22 @@
     <div class="overlay-content">
                 <form autocomplete="off">
                     <div class="autocomplete">
-                        <input type="text" placeholder="Search.." id="userSearch" name="search">
-                        <button id="submitBt" type="submit"><i class="fa fa-search"></i></button>
-                        <ul class="search-group" id="result"></ul>
+                        <input v-on:keyup="fetchPosts" v-model="mainSearch" type="text" placeholder="Search.." id="userSearch" name="search">
+                        <button v-on:click="movieInfo" v-model="search" id="submitBt" type="submit"></button>
+                        <ul v-if="showSearchList===true" class="search-group">
+                            <li v-for="movie in movies">
+                                <br><br><br><p id="autoResult" v-on:click="mainSearch= movie.Title, search= movie.imdbID, showmovie === true, movieInfo" >{{movie.Title}}</p>
+                            </li>
+                        </ul>
+                        <br><br><br>
+                        <ul v-if="showmovie===true" id="movieResult">
+                            <li>Title: {{ movieSearch.Title }}</li>
+                            <li>Released: {{ movieSearch.Year }}</li>
+                            <li>Genre: {{ movieSearch.Genre }}</li>
+                            <li>Plot: {{ movieSearch.Runtime }}</li>
+                            <li>Runtime: {{ movieSearch.Plot}}</li>
+                            <li>Country: {{ movieSearch.Country }}</li>
+                        </ul>
                     </div>
                 </form>
     </div>
@@ -94,8 +107,42 @@
     }
 </script>
 
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://vuejs.org/js/vue.js"></script>
 <script type="text/javascript" src="js/search.js"></script>
-<script>document.getElementById("userSearch").innerHTML = autocomplete();</script>
+
+<script>
+    var app = new Vue({
+        el: '#Search',
+        data:{
+            movies:[],
+            search: '',
+            mainSearch: '',
+            movieSearch: [],
+            showSearchList : true,
+            showmovie : false
+        },
+        methods:{
+            fetchPosts: function(){
+                this.showSearchList=true;
+                this.showmovie=false
+                axios.get("http://localhost:8080/title/?title=" + this.mainSearch).then(function(response){
+                    this.movies = response.data;
+                    console.log(mainSearch);
+                    console.log(this.mainSearch);
+                }.bind(this))
+            },
+            movieInfo: function(){
+                this.showSearchList=false;
+                this.showmovie=true
+                axios.get("http://localhost:8080/title/movie/?imdb=" + this.search).then(function(response){
+                    this.movieSearch = response.data;
+                    this.mainSearch = movieSearch.Title;
+                }.bind(this))
+            }
+        }
+    })
+</script>
 
 </body>
 </html>

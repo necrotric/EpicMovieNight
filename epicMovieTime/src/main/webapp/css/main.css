@@ -163,8 +163,14 @@ body {font-family: Verdana, sans-serif;}
 }
 
 .search-group {
-    margin-bottom: 20px;
-    padding-left: 0;
+    margin-top: 50px;
+    max-height: 270px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.search-group p {
+    margin-top: -50px;
 }
 
 .search {
@@ -214,6 +220,15 @@ body {font-family: Verdana, sans-serif;}
     transform: translate(-50%, -50%);
 }
 
+#movieResult li {
+    color: whitesmoke;
+}
+
+#autoResult {
+    color: whitesmoke;
+    cursor: pointer;
+}
+
 #result {
     font-weight: lighter;
     font-size: 16px;
@@ -251,26 +266,4 @@ input[type=text] {
 input[type=submit] {
     background-color: DodgerBlue;
     color: #fff;
-}
-.autocomplete-items {
-    position: absolute;
-    border: 1px solid #d4d4d4;
-    border-bottom: none;
-    border-top: none;
-    z-index: 99;
-    top: 100%;
-    width: 80%;
-}
-.autocomplete-items div {
-    padding: 10px;
-    cursor: pointer;
-    background-color: #fff;
-    border-bottom: 1px solid #d4d4d4;
-}
-.autocomplete-items div:hover {
-    background-color: #e9e9e9;
-}
-.autocomplete-active {
-    background-color: DodgerBlue !important;
-    color: #ffffff;
 }

@@ -7,9 +7,28 @@ input[type=text], input[type=password] {
     box-sizing: border-box;
 }
 
+button {
+    color: white;
+    padding: 25px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.container button{
+    background: url(../image/sign-in-button.png) no-repeat;
+    background-size: 70%;
+    background-position: center;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
 #loginBt{
     position: relative;
-    left: 20%;
+    left: 0%;
     padding-top: 3%;
 }
 
