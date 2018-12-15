@@ -77,7 +77,7 @@
                 <form autocomplete="off">
                     <div class="autocomplete">
                         <input v-on:keyup="fetchPosts" v-model="mainSearch" type="text" placeholder="Search.." id="userSearch" name="search">
-                        <button v-on:click="movieInfo" v-model="search" type="button" id="submitBt"></button>
+                        <button v-if="showBook===true" v-on:click="mainMovieTitle=true" type="button" id="bookBt"></button>
                         <ul v-if="showSearchList===true" class="search-group">
                             <li v-for="movie in movies">
                                 <br><br><br><p id="autoResult" v-on:mouseup="movieInfo" v-on:mousedown="mainSearch= movie.Title, search= movie.imdbID" >{{movie.Title}}</p>
@@ -94,7 +94,6 @@
                             <li>Country: {{ movieSearch.Country }}</li>
                             <li>IMDB Rating: {{movieSearch.imdbRating}}</li>
                         </ul>
-                        <button v-if="showBook===true" v-on:click="mainMovieTitle=true" type="button" id="closeME">Book Movie</button> <!-- TODO link ID "closMe" to css for closing the layout and back to main. -->
                         <p v-if="mainMovieTitle">{{movieSearch.Title}}</p>  <!-- TODO Put on main outside of layout. NOTE Currently doesnt work due to Vue doesnt work outside the ID Search. Quickfix put Layout inside another div
                         and make that the root for Vue. ?-->
                     </div>

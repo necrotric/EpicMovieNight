@@ -150,9 +150,8 @@ body {font-family: Verdana, sans-serif;}
     border: none;
     cursor: pointer;
 }
-
-#submitBt {
-    background: url(../image/Search-512.png) no-repeat;
+#bookBt {
+    background: url(../image/BMlogoAU.png) no-repeat;
     background-size: 90%;
     background-position: center;
     outline-style: none;
