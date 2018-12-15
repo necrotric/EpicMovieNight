@@ -149,7 +149,13 @@ body {font-family: Verdana, sans-serif;}
     font-size: 17px;
     border: none;
     cursor: pointer;
+
+    background: url(../image/BMlogoAU.png) no-repeat;
+    background-size: 90%;
+    background-position: center;
+    outline-style: none;
 }
+
 #bookBt {
     background: url(../image/BMlogoAU.png) no-repeat;
     background-size: 90%;
