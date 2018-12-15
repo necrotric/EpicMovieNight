@@ -80,7 +80,7 @@
                         <button v-on:click="movieInfo" v-model="search" type="button" id="submitBt"></button>
                         <ul v-if="showSearchList===true" class="search-group">
                             <li v-for="movie in movies">
-                                <br><br><br><p id="autoResult" v-on:mouseup="movieInfo" v-on:mousedown="mainSearch= movie.Title, search= movie.imdbID, showmovie === true" >{{movie.Title}}</p>
+                                <br><br><br><p id="autoResult" v-on:mouseup="movieInfo" v-on:mousedown="mainSearch= movie.Title, search= movie.imdbID" >{{movie.Title}}</p>
                             </li>
                         </ul>
                         <br><br><br>
@@ -94,6 +94,9 @@
                             <li>Country: {{ movieSearch.Country }}</li>
                             <li>IMDB Rating: {{movieSearch.imdbRating}}</li>
                         </ul>
+                        <button v-if="showBook===true" v-on:click="mainMovieTitle=true" type="button" id="closeME">Book Movie</button> <!-- TODO link ID "closMe" to css for closing the layout and back to main. -->
+                        <p v-if="mainMovieTitle">{{movieSearch.Title}}</p>  <!-- TODO Put on main outside of layout. NOTE Currently doesnt work due to Vue doesnt work outside the ID Search. Quickfix put Layout inside another div
+                        and make that the root for Vue. ?-->
                     </div>
                 </form>
     </div>
@@ -122,12 +125,15 @@
             mainSearch: '',
             movieSearch: [],
             showSearchList : true,
-            showmovie : false
+            showmovie: false,
+            showBook: false,
+            mainMovieTitle: false
         },
         methods:{
             fetchPosts: function(){
+                this.showBook=false;
                 this.showSearchList=true;
-                this.showmovie=false
+                this.showmovie=false;
                 axios.get("http://localhost:8080/title/?title=" + this.mainSearch).then(function(response){
                     this.movies = response.data;
                     console.log(mainSearch);
@@ -135,8 +141,9 @@
                 }.bind(this))
             },
             movieInfo: function(){
+                this.showBook=true;
                 this.showSearchList=false;
-                this.showmovie=true
+                this.showmovie=true;
                 axios.get("http://localhost:8080/title/movie/?imdb=" + this.search).then(function(response){
                     this.movieSearch = response.data;
                     this.mainSearch = movieSearch.Title;
