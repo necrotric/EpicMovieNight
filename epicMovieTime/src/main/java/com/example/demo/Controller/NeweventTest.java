@@ -24,6 +24,7 @@ import com.google.api.services.calendar.model.Events;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -91,14 +92,13 @@ event.setEnd(end);
 
     String[] recurrence = new String[] {"RRULE:FREQ=DAILY;COUNT=2"};
 event.setRecurrence(Arrays.asList(recurrence));
-
-    EventAttendee[] attendees = new EventAttendee[] {
-            // new EventAttendee().setEmail("email");
-    };
-    for (int i = 0; i < allUser.size() ; i++) {
-        new EventAttendee().setEmail(allUser.get(i));
+    int databasesize = allUser.size();
+    EventAttendee[] attendees= new EventAttendee[databasesize];
+    for (int i = 0; i < databasesize ; i++) {
+        attendees[i] = new EventAttendee().setEmail(allUser.get(i));
     }
-event.setAttendees(Arrays.asList(attendees));
+
+    event.setAttendees(Arrays.asList(attendees));
 
     EventReminder[] reminderOverrides = new EventReminder[] {
             new EventReminder().setMethod("email").setMinutes(24 * 60),
