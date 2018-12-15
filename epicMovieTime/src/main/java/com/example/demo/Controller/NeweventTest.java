@@ -20,6 +20,7 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +34,9 @@ import java.util.Arrays;
 
 public class NeweventTest {
    private static ArrayList<String> allUser = new ArrayList<String>();
-
+//    private static String startTime="2018-12-16T09:00:00-07:00";
+//    private static String  endTime="2018-12-16T17:00:00-07:00";
+//    private static String summary ="A very nice event";
 
     private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
@@ -46,7 +49,7 @@ public class NeweventTest {
     private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR);
    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
     public static void main(String[] args) throws IOException, GeneralSecurityException {
-        gogo();
+       // gogo(startTime,endTime,summary);
     }
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         allUser.add("epicmovienight12@gmail.com");
@@ -67,24 +70,24 @@ public class NeweventTest {
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
-public static void gogo() throws IOException, GeneralSecurityException {
+public static void gogo(String startTime, String endTime, String summary) throws IOException, GeneralSecurityException {
 
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
             .setApplicationName(APPLICATION_NAME)
             .build();
     Event event = new Event()
-            .setSummary("Google I/O 2015")
-            .setLocation("800 Howard St., San Francisco, CA 94103")
-            .setDescription("A chance to hear more about Google's developer products.");
-
-    DateTime startDateTime = new DateTime("2018-12-24T09:00:00-07:00");
+            .setSummary(summary)
+            .setLocation("Center of the universe")
+            .setDescription("A chance to be in the middle ... litterly");
+    //"2018-12-20T09:00:00-07:00"
+    DateTime startDateTime = new DateTime(startTime);
     EventDateTime start = new EventDateTime()
             .setDateTime(startDateTime)
             .setTimeZone("America/Los_Angeles");
 event.setStart(start);
 
-    DateTime endDateTime = new DateTime("2018-12-24T17:00:00-07:00");
+    DateTime endDateTime = new DateTime(endTime);
     EventDateTime end = new EventDateTime()
             .setDateTime(endDateTime)
             .setTimeZone("America/Los_Angeles");

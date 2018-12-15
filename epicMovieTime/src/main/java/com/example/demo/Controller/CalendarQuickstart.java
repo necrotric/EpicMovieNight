@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -60,6 +61,8 @@ public class CalendarQuickstart {
 
     public static void main(String... args) throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
+    }
+    public static List<Event> showEvents() throws IOException, GeneralSecurityException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
@@ -87,5 +90,6 @@ public class CalendarQuickstart {
                 System.out.printf("%s (%s)\n", event.getSummary(), start);
             }
         }
+    return items;
     }
 }

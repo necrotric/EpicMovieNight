@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,5 +53,15 @@ public class MainController {
             return movies;
         }
         return getFromDB;
+    }
+
+    @GetMapping("/calendar/book")
+    public String string(@RequestParam String startDate,@RequestParam String endDate,@RequestParam String summary) throws IOException, GeneralSecurityException {
+        NeweventTest calendar = new NeweventTest();
+        calendar.gogo(startDate,endDate,summary);
+        CalendarQuickstart quickEvents = new CalendarQuickstart();
+        quickEvents.showEvents();
+
+        return "lol it might have worked";
     }
 }
