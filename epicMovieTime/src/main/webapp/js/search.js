@@ -1,4 +1,4 @@
-var app = new Vue({
+/*var app = new Vue({
     el: '#root',
     data:{
         movies:[],
@@ -29,4 +29,4 @@ var app = new Vue({
             }.bind(this))
         }
     }
-})
+})*/
