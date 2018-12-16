@@ -70,6 +70,18 @@
     <a href="#Search" onclick=openSearch();>Search</a>
     <a href="info.html" id="info">Info</a>
 </div>
+<div>
+
+</div>
+<div class="anotherone">
+    <h2  v-if="mainMovieTitle===true">Movie to book:{{bookMovie}}</h2>
+    <h2>Booked events: </h2>
+    <ul>
+        <li v-for="resp in bookResponse">
+            <h4>{{resp}}</h4>
+        </li>
+    </ul>
+
 
 <div id="Search" class="overlay">
     <span class="closebtn" onclick="closeSearch()" title="Close Overlay">×</span>
@@ -94,14 +106,14 @@
                             <li>Country: {{ movieSearch.Country }}</li>
                             <li>IMDB Rating: {{movieSearch.imdbRating}}</li>
                         </ul>
-                        <button v-if="showBook===true" v-on:click="mainMovieTitle=true" type="button" id="closeME">Book Movie</button> <!-- TODO link ID "closMe" to css for closing the layout and back to main. -->
-                        <p v-if="mainMovieTitle">{{movieSearch.Title}}</p>  <!-- TODO Put on main outside of layout. NOTE Currently doesnt work due to Vue doesnt work outside the ID Search. Quickfix put Layout inside another div
+                        <button v-if="showBook===true" v-on:mousedown="bookInfo" v-on:click="mainMovieTitle=true, bookMovie = movieSearch.Title" type="button" id="closeME">Book Movie</button> <!-- TODO link ID "closMe" to css for closing the layout and back to main. -->
+                        <p v-if="showBook===true">{{movieSearch.Title}}</p>  <!-- TODO Put on main outside of layout. NOTE Currently doesnt work due to Vue doesnt work outside the ID Search. Quickfix put Layout inside another div
                         and make that the root for Vue. ?-->
                     </div>
                 </form>
     </div>
 </div>
-
+</div>
 <script>
     function openSearch() {
         document.getElementById("Search").style.display = "block";
@@ -118,16 +130,18 @@
 
 <script>
     var app = new Vue({
-        el: '#Search',
+        el: '.anotherone',
         data:{
             movies:[],
             search: '',
             mainSearch: '',
+            bookMovie: '',
             movieSearch: [],
             showSearchList : true,
             showmovie: false,
             showBook: false,
-            mainMovieTitle: false
+            mainMovieTitle: false,
+            bookResponse: []
         },
         methods:{
             fetchPosts: function(){
@@ -147,6 +161,11 @@
                 axios.get("http://localhost:8080/title/movie/?imdb=" + this.search).then(function(response){
                     this.movieSearch = response.data;
                     this.mainSearch = movieSearch.Title;
+                }.bind(this))
+            },
+            bookInfo: function(){
+                axios.get("http://localhost:8080/main.html/giveinfo").then(function(response){
+                    this.bookResponse = response.data;
                 }.bind(this))
             }
         }
