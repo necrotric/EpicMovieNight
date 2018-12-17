@@ -10,14 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
     @GetMapping(value ="../")
     public String index(){
-        return "did it work";
+        return "index";
     }
-//    @GetMapping(value="/private")
-//    public String privateArea(){
-//        return "Cant see me without access";
-//    }
-//@RequestMapping("../")
-//public String index() {
-//    return "Spring Boot Example";
-//}
+
+
+    @GetMapping(value = "/private")
+    public String privateArea(){
+        return "Private area";
+    }
 }

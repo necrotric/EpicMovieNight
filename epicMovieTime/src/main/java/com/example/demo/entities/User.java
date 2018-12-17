@@ -1,9 +1,5 @@
 package com.example.demo.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.List;
 import javax.persistence.*;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -13,31 +9,23 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class User {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class User extends BaseEntity{
+
     private String username;
     private String password;
-    private String email;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     private List<Role> roles;
-    User(){}
+    private boolean active;
 
-    public User(String username, String password, String email, List<Role> roles) {
+    public User(){
+
+    }
+
+    public User(String username, String password, List<Role> roles, boolean active) {
         this.username = username;
         this.password = password;
-        this.email = email;
         this.roles = roles;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.active = active;
     }
 
     public String getUsername() {
@@ -56,19 +44,19 @@ public class User {
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public List<Role> getRoles() {
         return roles;
     }
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
