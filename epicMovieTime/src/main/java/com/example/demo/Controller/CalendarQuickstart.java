@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class CalendarQuickstart {
      * Global instance of the scopes required by this quickstart.
      * If modifying these scopes, delete your previously saved tokens/ folder.
      */
-    private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
+    private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR);
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
     /**
@@ -60,6 +61,9 @@ public class CalendarQuickstart {
 
     public static void main(String... args) throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
+        showEvents();
+    }
+    public static ArrayList<List<Event>> showEvents() throws IOException, GeneralSecurityException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
@@ -67,7 +71,15 @@ public class CalendarQuickstart {
 
         // List the next 10 events from the primary calendar.
         DateTime now = new DateTime(System.currentTimeMillis());
-        Events events = service.events().list("primary")
+        ArrayList<String> alotUsers = new ArrayList<>();
+        alotUsers.add("necrotric@gmail.com");
+        alotUsers.add("johanmovienight12@gmail.com");
+        alotUsers.add("epicmovienight12@gmail.com");
+        ArrayList<List<Event>> allEvents = new ArrayList<>();
+        for (int i = 0; i < alotUsers.size() ; i++) {
+
+
+        Events events = service.events().list(alotUsers.get(i))
                 .setMaxResults(10)
                 .setTimeMin(now)
                 .setOrderBy("startTime")
@@ -87,5 +99,8 @@ public class CalendarQuickstart {
                 System.out.printf("%s (%s)\n", event.getSummary(), start);
             }
         }
+        allEvents.add(items);
+    }
+    return allEvents;
     }
 }
