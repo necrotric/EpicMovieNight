@@ -68,25 +68,16 @@ public class MainController {
         System.out.println("After this ----------------------------------- \n\n\n");
        // System.out.println(asd.get(0).get(0).getSummary());
         List<String> filterEvent = new ArrayList<>();
-//        for (int i = 0; i < asd.size() ; i++) {
-//            for (int j = 0; j < asd.get(i).size() ; j++) {
-//               String uniqueEvent =asd.get(i).get(j).getSummary();
-//               if(filterEvent.size()<=0){
-//                filterEvent.add(uniqueEvent);
-//                } else if(filterEvent.size()>0){
-//                   for (int k = 0; k < filterEvent.size() ; k++) {
-//                       if(filterEvent.get(k).contains(uniqueEvent)){
-//
-//                       }
-//                       else()
-//                   }
-//               }
-//
-//        }
+
         for (List<Event> e: asd) {
             for (Event ev:e) {
-                //System.out.println(ev.getSummary());
-                String sumAndDate = ""+ev.getSummary()+" " + ev.getStart().getDate() + "  "+ ev.getStart().getDateTime();
+                String sumAndDate="";
+                if(ev.getStart().getDate()==null){
+                   sumAndDate = ""+ev.getSummary() + "  "+ ev.getStart().getDateTime();
+                }
+                if(ev.getStart().getDateTime()==null) {
+                    sumAndDate = "" + ev.getSummary() + "  " + ev.getStart().getDate();
+                }
 //                System.out.println(sumAndDate);
                if(!filterEvent.contains(sumAndDate)){
                    filterEvent.add(sumAndDate);
