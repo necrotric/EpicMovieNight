@@ -62,7 +62,8 @@
     <li>29</li>
     <li>30</li>
     <li>31</li>
-</ul>
+</ul><br>
+<!--<p v-if="mainMovieTitle">Booked: {{movieSearch.Title}}</p>-->
 
 <div class="navbar">
     <a href="#Logout" onclick="signOut();" style="width:auto;">Logout</a>
@@ -89,7 +90,7 @@
                 <form autocomplete="off">
                     <div class="autocomplete">
                         <input v-on:keyup="fetchPosts" v-model="mainSearch" type="text" placeholder="Search.." id="userSearch" name="search">
-                        <button v-on:click="movieInfo" v-model="search" type="button" id="submitBt"></button>
+                        <button v-if="showBook===true" v-on:click="mainMovieTitle=true" type="submit" id="bookBt"></button>
                         <ul v-if="showSearchList===true" class="search-group">
                             <li v-for="movie in movies">
                                 <br><br><br><p id="autoResult" v-on:mouseup="movieInfo" v-on:mousedown="mainSearch= movie.Title, search= movie.imdbID" >{{movie.Title}}</p>
@@ -106,6 +107,7 @@
                             <li>Country: {{ movieSearch.Country }}</li>
                             <li>IMDB Rating: {{movieSearch.imdbRating}}</li>
                         </ul>
+
                         <button v-if="showBook===true" v-on:mousedown="bookInfo" v-on:click="mainMovieTitle=true, bookMovie = movieSearch.Title" type="button" id="closeME">Book Movie</button> <!-- TODO link ID "closMe" to css for closing the layout and back to main. -->
                         <p v-if="showBook===true">{{movieSearch.Title}}</p>  <!-- TODO Put on main outside of layout. NOTE Currently doesnt work due to Vue doesnt work outside the ID Search. Quickfix put Layout inside another div
                         and make that the root for Vue. ?-->
@@ -150,7 +152,6 @@
                 this.showmovie=false;
                 axios.get("http://localhost:8080/title/?title=" + this.mainSearch).then(function(response){
                     this.movies = response.data;
-                    console.log(mainSearch);
                     console.log(this.mainSearch);
                 }.bind(this))
             },
@@ -160,7 +161,7 @@
                 this.showmovie=true;
                 axios.get("http://localhost:8080/title/movie/?imdb=" + this.search).then(function(response){
                     this.movieSearch = response.data;
-                    this.mainSearch = movieSearch.Title;
+                    this.mainSearch = this.movieSearch.Title;
                 }.bind(this))
             },
             bookInfo: function(){
@@ -171,6 +172,5 @@
         }
     })
 </script>
-
 </body>
 </html>
