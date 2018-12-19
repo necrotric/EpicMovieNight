@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import com.example.demo.services.UserService;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventAttendee;
@@ -20,6 +21,8 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -31,8 +34,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Arrays;
-
+@Service
 public class NeweventTest {
+
    private static ArrayList<String> allUser = new ArrayList<String>();
 //    private static String startTime="2018-12-16T09:00:00-07:00";
 //    private static String  endTime="2018-12-16T17:00:00-07:00";
@@ -41,6 +45,8 @@ public class NeweventTest {
     private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
+    final
+    UserService userService;
 
     /**
      * Global instance of the scopes required by this quickstart.
@@ -48,6 +54,12 @@ public class NeweventTest {
      */
     private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR);
    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
+
+    @Autowired
+    public NeweventTest(UserService userService) {
+        this.userService = userService;
+    }
+
     public static void main(String[] args) throws IOException, GeneralSecurityException {
        // gogo(startTime,endTime,summary);
     }
@@ -70,12 +82,14 @@ public class NeweventTest {
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
-public static void gogo(String startTime, String endTime, String summary) throws IOException, GeneralSecurityException {
+public void gogo(String startTime, String endTime, String summary) throws IOException, GeneralSecurityException {
 
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
             .setApplicationName(APPLICATION_NAME)
             .build();
+
+    System.out.println(userService.getAllUsers().get(0).getEmail()+ " IT IS IN CREATE EVENTS");
     Event event = new Event()
             .setSummary(summary)
             .setLocation("Center of the universe")
@@ -93,7 +107,7 @@ event.setStart(start);
             .setTimeZone("America/Los_Angeles");
 event.setEnd(end);
 
-    String[] recurrence = new String[] {"RRULE:FREQ=DAILY;COUNT=2"};
+    String[] recurrence = new String[] {"RRULE:FREQ=DAILY;COUNT=1"};
 event.setRecurrence(Arrays.asList(recurrence));
     int databasesize = allUser.size();
     EventAttendee[] attendees= new EventAttendee[databasesize];

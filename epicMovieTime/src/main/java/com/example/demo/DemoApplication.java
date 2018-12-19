@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.Controller.MainController;
 import com.example.demo.entities.Role;
 import com.example.demo.entities.User;
 import com.example.demo.services.UserService;
@@ -14,15 +15,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class DemoApplication {
-
-
-
     @Bean
     public CommandLineRunner setupDefaultUser(UserService service) {
         return args -> {
             service.save(new User(
                     "user", //username
                     "user", //password
+                    "epicmovienight12@gmail.com",
                     Arrays.asList(new Role("USER"), new Role("ACTUATOR")),//roles
                     true//Active
             ));
