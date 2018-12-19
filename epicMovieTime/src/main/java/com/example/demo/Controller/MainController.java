@@ -7,11 +7,14 @@ import com.example.demo.entities.User;
 import com.example.demo.services.UserService;
 import com.google.api.services.calendar.model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,25 +38,8 @@ public class MainController {
         this.calendar = calendar;
     }
 
-    public void dostuff(){
-        ArrayList<List<User>> apa = new ArrayList<>();
-        apa.add(userService.getAllUsers());
-        System.out.println(apa);
-    //    System.out.println(asdasda);
-    }
-//    @GetMapping("/posts")
-//    public List<User> userlists(){
-//        //System.out.println(userService.getAllUsers());
-//        ArrayList<List<User>> apa = new ArrayList<>();
-//        apa.add(userService.getAllUsers());
-//        System.out.println(apa);
-//       // dostuff();
-//       // quick.dostuff(apa);
-//        return apa;
-//    }
-
     @GetMapping("/title")
-    public ArrayList<Movies> search(@RequestParam String title ) {
+    public ResponseEntity<ArrayList<Movies>> search(@RequestParam String title ) {
 
         ArrayList<Movies> movies = new ArrayList<>() ;
         RestTemplate restTemplate = new RestTemplate();
@@ -70,24 +56,31 @@ public class MainController {
                 movies.get(i).setYear(s.getSearch().get(i).getYear());
 
             }}}
-        return movies ;
+            if(movies.size()==0){
+                return new ResponseEntity<>(movies, HttpStatus.NO_CONTENT) ;
+            }
+        return new ResponseEntity<>(movies, HttpStatus.OK) ;
     }
     @GetMapping("/title/movie")
-    public Movies movies(@RequestParam String imdb){
+    public ResponseEntity<Movies> movies(@RequestParam String imdb){
         RestTemplate restTemplate = new RestTemplate();
         getFromDB = repository.findMoviesByimdbID(imdb);
         List<Movies> asaa = repository.findAll();
         asaa.size();
-        System.out.println(asaa.size() + " amount of movies inside" );
-        System.out.println("Inside API ;)"+ getFromDB);
+       // System.out.println(asaa.size() + " amount of movies inside" );
+       // System.out.println("Inside API ;)"+ getFromDB);
         if(getFromDB == null) {
             movies = restTemplate.getForObject(
                     "http://www.omdbapi.com/?i=" + imdb + "&apikey=ea1db5cc", Movies.class);
 
             repository.save(movies);
-            return movies;
+            if(movies==null){
+                return new ResponseEntity<>(movies, HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(movies, HttpStatus.OK);
         }
-        return getFromDB;
+
+        return new ResponseEntity<>(getFromDB, HttpStatus.OK);
     }
 
     @GetMapping("/main.html/giveinfo")
@@ -116,18 +109,24 @@ public class MainController {
             }
 
         }
-        for (String s: filterEvent) {
-            System.out.println(s);
-        }
+//        for (String s: filterEvent) {
+//            System.out.println(s);
+//        }
         return filterEvent;
     }
 
     @GetMapping("/calendar/book")
-    public String string(@RequestParam String startDate,@RequestParam String endDate,@RequestParam String summary) throws IOException, GeneralSecurityException {
+    public ResponseEntity<String> string(@RequestParam String startDate,@RequestParam String endDate,@RequestParam String summary) throws IOException, GeneralSecurityException {
+        if(startDate.equals(":00") || endDate.equals(":00")){
+            return new ResponseEntity<>("You need to select a YY-MM-DD TT-MM", HttpStatus.BAD_REQUEST);
+        }
+        if(summary=="" || summary == null){
+            return new ResponseEntity<>("You need to select a movie", HttpStatus.BAD_REQUEST);
+        }
         calendar.gogo(startDate,endDate,summary);
         quick.showEvents();
        // ArrayList<List<Event>> asd = quick.showEvents();
 
-        return "Thank you for Booking the movie: "+summary+ ". Emails have been sent to registered users for the start:" +startDate+ ", and endng at:"+endDate;
+        return new ResponseEntity<>("Thank you for Booking the movie: "+summary+ ". Emails have been sent to registered users for the start:" +startDate+ ", and endng at:"+endDate, HttpStatus.OK);
     }
 }
