@@ -1,17 +1,22 @@
 package com.example.demo.entities;
+import javax.persistence.Entity;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-
-public class Role {
+@Entity
+public class Role extends BaseEntity{
 
     private String name;
-    Role(){}
+    public Role(){
 
+    }
     public Role(String name) {
         this.name = name;
     }
+
     public String getName() {
         return name;
     }

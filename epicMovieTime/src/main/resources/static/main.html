@@ -62,8 +62,7 @@
     <li>29</li>
     <li>30</li>
     <li>31</li>
-</ul><br>
-<!--<p v-if="mainMovieTitle">Booked: {{movieSearch.Title}}</p>-->
+</ul>
 
 <div class="navbar">
     <a href="#Logout" onclick="signOut();" style="width:auto;">Logout</a>
@@ -82,37 +81,46 @@
             <h4>{{resp}}</h4>
         </li>
     </ul>
+<div>
+    <form>
+        <label>Start Time:</label>
+        <input type="datetime-local" required v-model="startDate" id="start"
+               value="2018-07-22"
+               min="2018-01-01" max="2018-12-31">
+        <label>End Time:</label>
+        <input type="datetime-local" required v-model="endDate" id="end" value="2018-07-22"
+               min="2018-01-01" max="2018-12-31">
+        <button v-on:mouseup="bookInfo" v-on:mousedown="bookCalendar" type="button">BOOK</button>
+        <p>{{bookingMessage}}</p>
+    </form>
 
 
-<div id="Search" class="overlay">
-    <span class="closebtn" onclick="closeSearch()" title="Close Overlay">×</span>
-    <div class="overlay-content">
-                <form autocomplete="off">
-                    <div class="autocomplete">
-                        <input v-on:keyup="fetchPosts" v-model="mainSearch" type="text" placeholder="Search.." id="userSearch" name="search">
-                        <button v-if="showBook===true" v-on:click="mainMovieTitle=true" type="submit" id="bookBt"></button>
-                        <ul v-if="showSearchList===true" class="search-group">
-                            <li v-for="movie in movies">
-                                <br><br><br><p id="autoResult" v-on:mouseup="movieInfo" v-on:mousedown="mainSearch= movie.Title, search= movie.imdbID" >{{movie.Title}}</p>
-                            </li>
-                        </ul>
-                        <br><br><br>
-                        <ul v-if="showmovie===true" id="movieResult">
-                            <img v-bind:src="movieSearch.Poster" align="left" style="margin-right: 10px" height="210" width="210">
-                            <li>Title: {{ movieSearch.Title }}</li>
-                            <li>Released: {{ movieSearch.Year }}</li>
-                            <li>Genre: {{ movieSearch.Genre }}</li>
-                            <li>Runtime: {{ movieSearch.Runtime }}</li>
-                            <li>Plot: {{ movieSearch.Plot}}</li>
-                            <li>Country: {{ movieSearch.Country }}</li>
-                            <li>IMDB Rating: {{movieSearch.imdbRating}}</li>
-                        </ul>
-
-                        <button v-if="showBook===true" v-on:mousedown="bookInfo" v-on:click="mainMovieTitle=true, bookMovie = movieSearch.Title" type="button" id="closeME">Book Movie</button> <!-- TODO link ID "closMe" to css for closing the layout and back to main. -->
-                        <p v-if="showBook===true">{{movieSearch.Title}}</p>  <!-- TODO Put on main outside of layout. NOTE Currently doesnt work due to Vue doesnt work outside the ID Search. Quickfix put Layout inside another div
-                        and make that the root for Vue. ?-->
-                    </div>
-                </form>
+    <div id="Search" class="overlay">
+        <span class="closebtn" onclick="closeSearch()" title="Close Overlay">×</span>
+        <div class="overlay-content">
+            <form autocomplete="off">
+                <div class="autocomplete">
+                    <input v-on:keyup="fetchPosts" v-model="mainSearch" type="text" placeholder="Search.." id="userSearch" name="search">
+                    <button v-if="showBook===true" v-on:mousedown="bookInfo" v-on:click="mainMovieTitle=true, bookMovie = movieSearch.Title" onclick="closeSearch()" type="button" id="bookBt"></button>
+                    <ul v-if="showSearchList===true" class="search-group">
+                        <li v-for="movie in movies">
+                            <br><br><br><p id="autoResult" v-on:mouseup="movieInfo" v-on:mousedown="mainSearch= movie.Title, search= movie.imdbID" >{{movie.Title}}</p>
+                        </li>
+                    </ul>
+                    <br><br><br>
+                    <ul v-if="showmovie===true" id="movieResult">
+                        <img v-bind:src="movieSearch.Poster" align="left" style="margin-right: 10px" height="210" width="210">
+                        <li>Title: {{ movieSearch.Title }}</li>
+                        <li>Released: {{ movieSearch.Year }}</li>
+                        <li>Genre: {{ movieSearch.Genre }}</li>
+                        <li>Runtime: {{ movieSearch.Runtime }}</li>
+                        <li>Plot: {{ movieSearch.Plot}}</li>
+                        <li>Country: {{ movieSearch.Country }}</li>
+                        <li>IMDB Rating: {{movieSearch.imdbRating}}</li>
+                    </ul>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 </div>
@@ -138,6 +146,11 @@
             search: '',
             mainSearch: '',
             bookMovie: '',
+            startDate: '',
+            endDate: '',
+            oneMoreEnd:'',
+            oneMoreStart:'',
+            bookingMessage:'',
             movieSearch: [],
             showSearchList : true,
             showmovie: false,
@@ -152,6 +165,7 @@
                 this.showmovie=false;
                 axios.get("http://localhost:8080/title/?title=" + this.mainSearch).then(function(response){
                     this.movies = response.data;
+                    console.log(mainSearch);
                     console.log(this.mainSearch);
                 }.bind(this))
             },
@@ -161,16 +175,25 @@
                 this.showmovie=true;
                 axios.get("http://localhost:8080/title/movie/?imdb=" + this.search).then(function(response){
                     this.movieSearch = response.data;
-                    this.mainSearch = this.movieSearch.Title;
+                    this.mainSearch = movieSearch.Title;
                 }.bind(this))
             },
             bookInfo: function(){
+                console.log("book info");
                 axios.get("http://localhost:8080/main.html/giveinfo").then(function(response){
                     this.bookResponse = response.data;
+                }.bind(this))
+            },
+            bookCalendar: function(){
+                console.log("Im sending this message:" +"http://localhost:8080/calendar/book/?startDate="+this.oneMoreStart+"&endDate="+this.oneMoreEnd+"&summary="+this.bookMovie);
+                        // http://localhost:8080/calendar/book/?startDate=2018-12-26T09:00:00&endDate=2018-12-27T17:00:00&summary=Whatup%20mannn
+                axios.get("http://localhost:8080/calendar/book/?startDate=" +this.startDate+ ":00&endDate=" +this.endDate+ ":00&summary="+this.bookMovie).then(function(response){
+                    this.bookingMessage = response.data
                 }.bind(this))
             }
         }
     })
 </script>
+
 </body>
 </html>
