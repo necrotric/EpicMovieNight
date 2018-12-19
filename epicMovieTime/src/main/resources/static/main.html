@@ -185,8 +185,6 @@
                 }.bind(this))
             },
             bookCalendar: function(){
-                console.log("Im sending this message:" +"http://localhost:8080/calendar/book/?startDate="+this.oneMoreStart+"&endDate="+this.oneMoreEnd+"&summary="+this.bookMovie);
-                        // http://localhost:8080/calendar/book/?startDate=2018-12-26T09:00:00&endDate=2018-12-27T17:00:00&summary=Whatup%20mannn
                 axios.get("http://localhost:8080/calendar/book/?startDate=" +this.startDate+ ":00&endDate=" +this.endDate+ ":00&summary="+this.bookMovie).then(function(response){
                     this.bookingMessage = response.data
                 }.bind(this))
