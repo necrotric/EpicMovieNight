@@ -84,7 +84,7 @@ public class MainController {
     }
 
     @GetMapping("/main.html/giveinfo")
-    public List<String> events() throws IOException, GeneralSecurityException {
+    public ResponseEntity<List<String>> events() throws IOException, GeneralSecurityException {
 
 
         ArrayList<List<Event>> asd = quick.showEvents();
@@ -109,10 +109,15 @@ public class MainController {
             }
 
         }
+        System.out.println(filterEvent.size());
+        if(filterEvent.isEmpty()){
+            System.out.println("Do we get into filterevent == null");
+            return new ResponseEntity<>(filterEvent, HttpStatus.NO_CONTENT);
+        }
 //        for (String s: filterEvent) {
 //            System.out.println(s);
 //        }
-        return filterEvent;
+        return new ResponseEntity<>(filterEvent, HttpStatus.OK);
     }
 
     @GetMapping("/calendar/book")
