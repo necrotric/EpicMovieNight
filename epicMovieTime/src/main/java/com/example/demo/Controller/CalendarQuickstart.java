@@ -105,7 +105,7 @@ public class CalendarQuickstart {
                 .setApplicationName(APPLICATION_NAME)
                 .build();
 
-//        System.out.println("HERE AM I" +userService.getAllUsers().toString());
+           System.out.println("HERE AM I" +userService.getAllUsers().toString());
 //        System.out.println(userService.getAllUsers().size());
 //        System.out.println(userService.getAllUsers().get(0).getUsername());
         // List the next 10 events from the primary calendar.
@@ -131,10 +131,10 @@ public class CalendarQuickstart {
             } else {
                 System.out.println("Upcoming events");
                 for (Event event : items) {
-                    DateTime start = event.getStart().getDateTime();
-                    if (start == null) {
-                        start = event.getStart().getDate();
-                    }
+                        DateTime start = event.getStart().getDateTime();
+                        if (start == null) {
+                            start = event.getStart().getDate();
+                        }
                     System.out.printf("%s (%s)\n", event.getSummary(), start);
                 }
             }
