@@ -61,19 +61,9 @@ body {font-family: Verdana, sans-serif;outline-style: none;}
 }
 
 .days li:hover {
-    color: #ff2727;
-    font-size: 20px;
-    border: 1px solid black;
-    box-sizing: content-box;
-    width: 30px;
-    height: 15px;
-    padding: 30px;
+
 }
 
-.days li .active {
-    padding: 5px;
-    background: #333333;
-}
 
 @media screen and (max-width:720px) {
     .weekdays li, .days li {width: 13.1%;}

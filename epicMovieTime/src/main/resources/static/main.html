@@ -8,29 +8,31 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-
 <div class="month">
     <ul>
         <li class="prev">&#10094;</li>
         <li class="next">&#10095;</li>
-        <li>
-            December<br>
-            <span style="font-size:18px">2018</span>
+        <li id="currentMonth" style="font-size:26px">
+            <br>
+            <li id="currentYear" style="font-size:22px"></li>
         </li>
     </ul>
 </div>
 
-<ul class="weekdays">
-    <li>Mo</li>
-    <li>Tu</li>
-    <li>We</li>
-    <li>Th</li>
-    <li>Fr</li>
-    <li>Sa</li>
-    <li>Su</li>
+<ul id="currentWeekday" class="weekdays">
+    <li>Monday</li>
+    <li>Tuesday</li>
+    <li>Wednesday</li>
+    <li>Thursday</li>
+    <li>Friday</li>
+    <li>Saturday</li>
+    <li>Sunday</li>
 </ul>
 
-<ul class="days">
+<!--<div id="currentDate" class="days">-->
+
+</div>
+<ul id="currentDate" class="days">
     <li>1</li>
     <li>2</li>
     <li>3</li>
@@ -42,7 +44,7 @@
     <li>9</li>
     <li>10</li>
     <li>11</li>
-    <li><span class="active">12</span></li>
+    <li>12</li>
     <li>13</li>
     <li>14</li>
     <li>15</li>
@@ -162,7 +164,7 @@
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://vuejs.org/js/vue.js"></script>
-<script type="text/javascript" src="js/search.js"></script>
+<script type="text/javascript" src="js/calendar.js"></script>
 
 <script>
     var app = new Vue({
