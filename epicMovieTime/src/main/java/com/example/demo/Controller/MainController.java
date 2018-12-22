@@ -28,14 +28,12 @@ import static java.lang.Integer.parseInt;
 public class MainController {
 
     private final MovieRepository repository;
-    final
+    private final
     UserService userService;
-    final
+    private final
     NeweventTest calendar;
     private String findmovie = "";
-    private Movies getFromDB;
-    private Movies movies;
-    final CalendarQuickstart quick;
+    private final CalendarQuickstart quick;
 
     @Autowired
     public MainController(MovieRepository repository, UserService userService, CalendarQuickstart quick, NeweventTest calendar) {
@@ -74,13 +72,13 @@ public class MainController {
     @GetMapping("/title/movie")
     public ResponseEntity<Movies> movies(@RequestParam String imdb) {
         RestTemplate restTemplate = new RestTemplate();
-        getFromDB = repository.findMoviesByimdbID(imdb);
+        Movies getFromDB = repository.findMoviesByimdbID(imdb);
         List<Movies> asaa = repository.findAll();
         asaa.size();
         // System.out.println(asaa.size() + " amount of movies inside" );
         // System.out.println("Inside API ;)"+ getFromDB);
         if (getFromDB == null) {
-            movies = restTemplate.getForObject(
+            Movies movies = restTemplate.getForObject(
                     "http://www.omdbapi.com/?i=" + imdb + "&apikey=ea1db5cc", Movies.class);
 
             repository.save(movies);
