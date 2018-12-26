@@ -5,11 +5,10 @@ import com.example.demo.Classes.Movies;
 import com.example.demo.Classes.Search;
 import com.example.demo.entities.User;
 import com.example.demo.services.UserService;
-import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
 import org.apache.tomcat.jni.Local;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.datetime.joda.LocalDateTimeParser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,14 +28,12 @@ import static java.lang.Integer.parseInt;
 public class MainController {
 
     private final MovieRepository repository;
-    final
+    private final
     UserService userService;
-    final
+    private final
     NeweventTest calendar;
     private String findmovie = "";
-    private Movies getFromDB;
-    private Movies movies;
-    final CalendarQuickstart quick;
+    private final CalendarQuickstart quick;
 
     @Autowired
     public MainController(MovieRepository repository, UserService userService, CalendarQuickstart quick, NeweventTest calendar) {
@@ -75,13 +72,13 @@ public class MainController {
     @GetMapping("/title/movie")
     public ResponseEntity<Movies> movies(@RequestParam String imdb) {
         RestTemplate restTemplate = new RestTemplate();
-        getFromDB = repository.findMoviesByimdbID(imdb);
+        Movies getFromDB = repository.findMoviesByimdbID(imdb);
         List<Movies> asaa = repository.findAll();
         asaa.size();
         // System.out.println(asaa.size() + " amount of movies inside" );
         // System.out.println("Inside API ;)"+ getFromDB);
         if (getFromDB == null) {
-            movies = restTemplate.getForObject(
+            Movies movies = restTemplate.getForObject(
                     "http://www.omdbapi.com/?i=" + imdb + "&apikey=ea1db5cc", Movies.class);
 
             repository.save(movies);
@@ -132,94 +129,55 @@ public class MainController {
     }
 
     @GetMapping("/main.html/suggestedDates")
-    public ResponseEntity<List<LocalDate>> availableDates() throws IOException, GeneralSecurityException {
-        List<LocalDate> availableTime = new ArrayList<>();
-        List<LocalDate> bookedTime = new ArrayList<>();
-        List<LocalDate> suggestTimes = new ArrayList<>();
-
-        LocalDate today = LocalDate.now();
-        availableTime.add(today);
-        for (int i = 0; i < 17; i++) {
-            today = today.plusDays(1);
-            availableTime.add(today);
-        }
+    public ResponseEntity<ArrayList<List<DateTime>>> availableDates() throws IOException, GeneralSecurityException {
+        ArrayList<List<DateTime>> bookedTime = new ArrayList<>();
+        DateTime now = new DateTime(System.currentTimeMillis());
         ArrayList<List<Event>> allEvent = quick.showEvents();
         for (List<Event> list : allEvent) {
             for (Event event : list) {
-                DateTime dateTimeExist = event.getStart().getDateTime();
-                if (dateTimeExist!=null) {
-                    DateTime startDate = new DateTime(event.getStart().getDateTime().toString());
-                    DateTime endDate = new DateTime(event.getEnd().getDateTime().toString());
-                    String year = startDate.toString().substring(0, 4);
-                    String month = startDate.toString().substring(5, 7);
-                    String day = startDate.toString().substring(8, 10);
-                    int startDateYear = parseInt(year);
-                    int startDateMonth = parseInt(month);
-                    int startDateDay = parseInt(day);
-
-                    LocalDate parsedDate = LocalDate.of(startDateYear, startDateMonth, startDateDay);
-                    if (parsedDate.toString().substring(0, 10).equals(endDate.toString().substring(0, 10))) {
-                        System.out.println("Start day and end day is the same day" + parsedDate.toString().substring(0, 10));
-                        bookedTime.add(parsedDate);
-                    }
-                    if (!parsedDate.toString().substring(0, 10).equals(endDate.toString().substring(0, 10))) {
-                        bookedTime.add(parsedDate);
-                        while ((!parsedDate.toString().substring(0, 10).equals(endDate.toString().substring(0, 10)))) {
-                            parsedDate = parsedDate.plusDays(1);
-                            bookedTime.add(parsedDate);
-                        }
-                    }
-                }
-
-                if(event.getStart().getDate() != null){
-
-                    DateTime startDate = new DateTime(event.getStart().getDate().toString());
-                    DateTime endDate = new DateTime(event.getEnd().getDate().toString());
-                    System.out.println(event.getEnd().getDate().toString());
-                    String year = startDate.toString().substring(0, 4);
-                    String month = startDate.toString().substring(5, 7);
-                    String day = startDate.toString().substring(8, 10);
-                    int startDateYear = parseInt(year);
-                    int startDateMonth = parseInt(month);
-                    int startDateDay = parseInt(day);
-                    String endYear = endDate.toString().substring(0, 4);
-                    String endMonth = endDate.toString().substring(5, 7);
-                    String endDay = endDate.toString().substring(8, 10);
-                    int endDateYear = parseInt(endYear);
-                    int endDateMonth = parseInt(endMonth);
-                    int endDateDay =parseInt(endDay);
-                    LocalDate parsedEndDate = LocalDate.of(endDateYear,endDateMonth,endDateDay);
-                    parsedEndDate=parsedEndDate.minusDays(1);
-                    LocalDate parsedDate = LocalDate.of(startDateYear, startDateMonth, startDateDay);
-                    if (parsedDate.toString().substring(0, 10).equals(parsedEndDate.toString().substring(0, 10))) {
-                        System.out.println("Start day and end day is the same day" + parsedDate.toString().substring(0, 10));
-                        bookedTime.add(parsedDate);
-                    }
-                    if (!parsedDate.toString().substring(0, 10).equals(parsedEndDate.toString().substring(0, 10))) {
-                        bookedTime.add(parsedDate);
-                        while ((!parsedDate.toString().substring(0, 10).equals(parsedEndDate.toString().substring(0, 10)))) {
-                            parsedDate = parsedDate.plusDays(1);
-                            bookedTime.add(parsedDate);
-                        }
-                    }
+                if(event.getStart().getDateTime() != null) {
+                    List<DateTime> startAndEnd= new ArrayList<>();
+                    long start = event.getStart().getDateTime().getValue();
+                    long end = event.getEnd().getDateTime().getValue();
+                    DateTime jodaStart = new DateTime(start);
+                    DateTime jodaEnd = new DateTime(end);
+                    startAndEnd.add(jodaStart);
+                    startAndEnd.add(jodaEnd);
+                    bookedTime.add(startAndEnd);
+                } if(event.getStart().getDate() != null){
+                    List<DateTime> startAndEndDate= new ArrayList<>();
+                    long startDate = event.getStart().getDate().getValue();
+                    long endDate = event.getEnd().getDate().getValue();
+                    DateTime jodaStartDate = new DateTime(startDate);
+                    DateTime jodaEndDate = new DateTime(endDate);
+                    startAndEndDate.add(jodaStartDate);
+                    startAndEndDate.add(jodaEndDate);
+                    bookedTime.add(startAndEndDate);
                 }
             }
         }
-        System.out.println(bookedTime);
-        System.out.println(availableTime);
-        int count = 0;
-        for (int i = 0; i < availableTime.size(); i++) {
+        ArrayList<List<DateTime>> hourPerDay= new ArrayList<>();
+        List<DateTime> availableTimes = new ArrayList<>();
+        int twentyDays = 480;
+        for (int i = 0; i < twentyDays ; i++) {
+            availableTimes = new ArrayList<>();
+            int count =0;
             for (int j = 0; j < bookedTime.size(); j++) {
-                if (availableTime.get(i).toString().equals(bookedTime.get(j).toString())) {
+                if (!now.isBefore(bookedTime.get(j).get(0).minusHours(1)) && !now.isAfter(bookedTime.get(j).get(1))) {
+                   // System.out.println(now);
                     count++;
                 }
             }
-            if (count == 0) {
-                suggestTimes.add(availableTime.get(i));
+            now = now.plusHours(1);
+           // System.out.println(count);
+            if(count == 0){
+                System.out.println("Day: "+now.getDayOfMonth() + ". Hour of day: " + now.getHourOfDay());
+                availableTimes.add(now);
+                hourPerDay.add(availableTimes);
             }
-            count = 0;
+            count=0;
         }
-        return new ResponseEntity<>(suggestTimes, HttpStatus.OK);
+        return new ResponseEntity<>(hourPerDay, HttpStatus.OK);
     }
 
 

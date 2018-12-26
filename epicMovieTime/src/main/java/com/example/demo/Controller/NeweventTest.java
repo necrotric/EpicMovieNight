@@ -95,16 +95,16 @@ public void gogo(String startTime, String endTime, String summary) throws IOExce
             .setLocation("Center of the universe")
             .setDescription("A chance to be in the middle ... litterly");
     //"2018-12-20T09:00:00-07:00"
-    DateTime startDateTime = new DateTime(startTime);
+    DateTime startDateTime = new DateTime(startTime+"+01:00");
     EventDateTime start = new EventDateTime()
             .setDateTime(startDateTime)
-            .setTimeZone("America/Los_Angeles");
+            .setTimeZone("Europe/Zurich");
 event.setStart(start);
 
-    DateTime endDateTime = new DateTime(endTime);
+    DateTime endDateTime = new DateTime(endTime+"+01:00");
     EventDateTime end = new EventDateTime()
             .setDateTime(endDateTime)
-            .setTimeZone("America/Los_Angeles");
+            .setTimeZone("Europe/Zurich");
 event.setEnd(end);
 
     String[] recurrence = new String[] {"RRULE:FREQ=DAILY;COUNT=1"};
