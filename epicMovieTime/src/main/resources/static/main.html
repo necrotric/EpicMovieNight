@@ -8,63 +8,40 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<div class="month">
-    <ul>
-        <li class="prev">&#10094;</li>
-        <li class="next">&#10095;</li>
-        <li id="currentMonth" style="font-size:26px">
-            <br>
-            <li id="currentYear" style="font-size:22px"></li>
-        </li>
-    </ul>
+<div id='eventCal'>
+    <div class="calendar-layout">
+        <calendar
+                :day-key='selectedDisplayOption'>
+        </calendar>
+    </div>
 </div>
 
-<ul id="currentWeekday" class="weekdays">
-    <li>Monday</li>
-    <li>Tuesday</li>
-    <li>Wednesday</li>
-    <li>Thursday</li>
-    <li>Friday</li>
-    <li>Saturday</li>
-    <li>Sunday</li>
-</ul>
-
-<!--<div id="currentDate" class="days">-->
-
-</div>
-<ul id="currentDate" class="days">
-    <li>1</li>
-    <li>2</li>
-    <li>3</li>
-    <li>4</li>
-    <li>5</li>
-    <li>6</li>
-    <li>7</li>
-    <li>8</li>
-    <li>9</li>
-    <li>10</li>
-    <li>11</li>
-    <li>12</li>
-    <li>13</li>
-    <li>14</li>
-    <li>15</li>
-    <li>16</li>
-    <li>17</li>
-    <li>18</li>
-    <li>19</li>
-    <li>20</li>
-    <li>21</li>
-    <li>22</li>
-    <li>23</li>
-    <li>24</li>
-    <li>25</li>
-    <li>26</li>
-    <li>27</li>
-    <li>28</li>
-    <li>29</li>
-    <li>30</li>
-    <li>31</li>
-</ul>
+<template id='calendar'>
+    <div class='calendar'>
+        <div id="pre-formatted" class='header'>
+            <a class='arrow' @click='movePreviousYear'>&laquo;</a>
+            <a class='arrow' @click='movePreviousMonth'>&lsaquo;</a>
+            <span class='title' @click='moveThisMonth'>
+        {{ header.label }}
+      </span>
+            <a class='arrow' @click='moveNextMonth'>&rsaquo;</a>
+            <a class='arrow' @click='moveNextYear'>&raquo;</a>
+        </div>
+        <div class='weekdays'>
+            <div class='weekday' v-for='weekday in weekdays'>
+                {{ weekday.label_3 }}
+            </div>
+        </div>
+        <div class='week' v-for='week in weeks'>
+            <div
+                    class='day'
+                    :class='{ today: day.isToday, "not-in-month": !day.inMonth }'
+                    v-for='day in week'>
+                {{ day[dayKey] }}
+            </div>
+        </div>
+    </div>
+</template>
 
 <div class="navbar">
     <a href="#Logout" onclick="signOut();" style="width:auto;">Logout</a>
@@ -78,7 +55,17 @@
 
 </div>
 <div class="anotherone">
-    <br><h2 id="movieBook" v-if="mainMovieTitle===true" >Movie to book:</h2>
+    <form v-if="mainMovieTitle===true" id="time" align="center">
+        <label id="startTxt">Start Time: </label>
+        <input type="datetime-local" required v-model="startDate" id="startDate"
+               value="2018-07-22"
+               min="2018-01-01" max="2018-12-31">
+        <label id="endTxt">End Time: </label>
+        <input type="datetime-local" required v-model="endDate" id="endDate" value="2018-07-22"
+               min="2018-01-01" max="2018-12-31">
+        <button v-on:mouseup="bookInfo" v-on:mousedown="bookCalendar" id="calendarBookBt" type="button">Confirm</button>
+        <p>{{bookingMessage}}</p>
+    </form>
     <ul v-if="mainMovieTitle===true">
         <img v-bind:src="movieSearch.Poster" align="left" style="margin-right: 10px" height="210" width="210">
         <li>Title: {{ movieSearch.Title }}</li>
@@ -88,18 +75,7 @@
         <li>Plot: {{ movieSearch.Plot}}</li>
         <li>Country: {{ movieSearch.Country }}</li>
         <li>IMDB Rating: {{movieSearch.imdbRating}}</li>
-        <br><br>
-        <form id="time" align="center">
-            <label id="startTxt">Start Time: </label>
-            <input type="datetime-local" required v-model="startDate" id="startDate"
-                   value="2018-07-22"
-                   min="2018-01-01" max="2018-12-31">
-            <label id="endTxt">End Time: </label>
-            <input type="datetime-local" required v-model="endDate" id="endDate" value="2018-07-22"
-                   min="2018-01-01" max="2018-12-31">
-            <button v-on:mouseup="bookInfo" v-on:mousedown="bookCalendar" id="calendarBookBt" type="button">Confirm</button>
-            <p>{{bookingMessage}}</p>
-        </form>
+        <br><br><br><br><br>
     </ul>
     <div id="Booked" class="overlayBook">
         <div class="overlay-content">
@@ -164,7 +140,7 @@
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://vuejs.org/js/vue.js"></script>
-<script type="text/javascript" src="js/calendar.js"></script>
+<script type="text/javascript" src="js/Calendar.js"></script>
 
 <script>
     var app = new Vue({

@@ -2,86 +2,6 @@
 ul {list-style-type: none;}
 body {font-family: Verdana, sans-serif;outline-style: none;}
 
-.month {
-    padding: 70px 25px;
-    width: 100%;
-    background: #333333;
-    text-align: center;
-}
-
-.month ul {
-    margin: 0;
-    padding: 0;
-}
-
-.month ul li {
-    color: white;
-    font-size: 20px;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-}
-
-.month .prev {
-    float: left;
-    padding-top: 10px;
-}
-
-.month .next {
-    float: right;
-    padding-top: 10px;
-}
-
-.weekdays {
-    margin: 0;
-    padding: 10px 0;
-    background-color: #ddd;
-}
-
-.weekdays li {
-    display: inline-block;
-    width: 13.6%;
-    color: #666;
-    text-align: center;
-}
-
-.days {
-    padding: 10px 0;
-    background: #eee;
-    margin: 0;
-}
-
-.days li {
-    list-style-type: none;
-    display: inline-block;
-    width: 13.6%;
-    text-align: center;
-    margin-bottom: 50px;
-    font-size:12px;
-    color: #777;
-}
-
-.days li:hover {
-
-}
-
-
-@media screen and (max-width:720px) {
-    .weekdays li, .days li {width: 13.1%;}
-}
-
-@media screen and (max-width: 420px) {
-    .weekdays li, .days li {width: 12.5%;}
-    .days li .active {padding: 2px;}
-}
-
-@media screen and (max-width: 290px) {
-    .weekdays li, .days li {width: 12.2%;}
-}
-
-* {
-    box-sizing: border-box;
-}
-
 .overlay {
     height: 74.5%;
     width: 74.5%;
@@ -105,7 +25,6 @@ body {font-family: Verdana, sans-serif;outline-style: none;}
     background-color: rgb(0,0,0);
     background-color: rgba(0,0,0, 0.0);
 }
-
 
 .overlay image {
     opacity: 1;
@@ -322,4 +241,100 @@ input[type=button] {
 
 #endDate {
     border-radius: 25px;
+}
+
+#eventCal {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    padding: 20px;
+}
+
+.calendar {
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    justify-content: stretch;
+    align-items: center;
+    color: white;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #aaaaaa;
+    padding: 50px 25px;
+    width: 100%;
+    background: #333333;
+    text-align: center;
+}
+
+.header .arrow {
+    cursor: pointer;
+    padding: 0 0.4em 0.2em 0.4em;
+    font-size: 1.8rem;
+    font-weight: 500;
+    user-select: none;
+    flex-grow: 0;
+}
+
+.header .arrow:hover {
+    color: #dcdcdc;
+}
+
+.header .title {
+    cursor: pointer;
+    flex-grow: 1;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.header .title:hover {
+    color: #dcdcdc;
+}
+
+.weekdays {
+    display: flex;
+    flex: auto;
+}
+
+.weekday {
+    width: 14.2857%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.4rem 0;
+    color: #7a7a7a;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #aaaaaa;
+    background-color: #eaeaea;
+}
+
+.week {
+    display: flex;
+}
+
+.day {
+    width: 14.2857%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #3a3a3a;
+    background-color: white;
+    border: none;
+}
+
+.today {
+    font-weight: 500;
+    color: #ff0000;
+}
+
+.day:hover{
+    font-weight: 700;
+    font-size: 35px;
+    cursor: default;
+}
+
+#pre-formatted {
+    white-space: pre;
 }
