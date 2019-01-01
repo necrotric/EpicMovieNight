@@ -16,7 +16,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
  * The @EnableAuthorizationServer annotation is used to configure the OAuth 2.0 Authorization Server mechanism,
  * together with any @Beans that implement AuthorizationServerConfigurer (there is a handy adapter implementation with empty methods).
  */
-@ConfigurationProperties
+@Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 

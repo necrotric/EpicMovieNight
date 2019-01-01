@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Controller
 public class HomeController {
-    @GetMapping(value ="../")
+    @GetMapping(value ="/")
     public ResponseEntity<String> index(){
         return new ResponseEntity<>("index", HttpStatus.OK);
     }

@@ -19,8 +19,8 @@ public class DemoApplication {
     public CommandLineRunner setupDefaultUser(UserService service) {
         return args -> {
             service.save(new User(
-                    "user", //username
-                    "user", //password
+                    "user2", //username
+                    "user2", //password
                     "epicmovienight12@gmail.com",
                     Arrays.asList(new Role("USER"), new Role("ACTUATOR")),//roles
                     true//Active
