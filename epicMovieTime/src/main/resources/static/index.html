@@ -5,13 +5,20 @@
     <title>Epic Movie Nights</title>
 
     <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="613443354164-5kcj891c1oo134499n7q07nla718nuh8.apps.googleusercontent.com">
 
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/login.css">
 
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- Axios is optional, include it if you want to use it instead of $.ajax (POST) -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
+
+    <!-- This will contain your application's javascript code-->
+    <script src="/main.js" defer></script>
 </head>
 <body>
 
@@ -28,6 +35,8 @@
     <a href="#Login" onclick="document.getElementById('login').style.display='block'" style="width:auto;">Login</a>
     <p>|</p>
     <a target="_blank" rel="noopener noreferrer" href="https://accounts.google.com/signup/v2/webcreateaccount?hl=sv&flowName=GlifWebSignIn&flowEntry=SignUp">Register</a>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <button id="signinButton">Link my Google Calendar</button>
     <a href="main.html" id="info">Info</a>
 </div>
 
