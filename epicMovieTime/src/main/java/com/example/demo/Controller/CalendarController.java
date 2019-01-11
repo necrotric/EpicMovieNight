@@ -1,5 +1,7 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Classes.UserOauth;
+import com.example.demo.Repository.UserOauthRepository;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
@@ -10,6 +12,8 @@ import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -18,11 +22,18 @@ import java.util.List;
 @RestController
 public class CalendarController {
 
-    final String CLIENT_ID = "613443354164-5kcj891c1oo134499n7q07nla718nuh8.apps.googleusercontent.com";
-    final String CLIENT_SECRET = "s4vko63WAwIIGaXIcZi2V2js";
+    private final UserOauthRepository repository;
+
+    @Autowired
+    public CalendarController(UserOauthRepository repository) {
+        this.repository = repository;
+
+    }
 
     @RequestMapping(value = "/storeauthcode", method = RequestMethod.POST)
     public String storeauthcode(@RequestBody String code, @RequestHeader("X-Requested-With") String encoding) {
+        final String CLIENT_ID = "859616239523-q30d9kt5usner4a4070oi53gioduie33.apps.googleusercontent.com";
+        final String CLIENT_SECRET = "OMDDDnbQdc9uDgSgBpPrBE8h";
         if (encoding == null || encoding.isEmpty()) {
             // Without the `X-Requested-With` header, this request could be forged. Aborts.
             return "Error, wrong headers";
@@ -83,11 +94,25 @@ public class CalendarController {
         System.out.println("familyName: " + familyName);
         System.out.println("givenName: " + givenName);
 
+        UserOauth userDetails = new UserOauth();
+        userDetails.setEmail(email);
+        userDetails.setAccessToken(accessToken);
+        userDetails.setRefreshToken(refreshToken);
+        userDetails.setExpiresAt(expiresAt);
+
+       if(repository.findUserOauthByEmail(email) == null) {
+            repository.save(userDetails);
+       }
+
+
+
+
+
         // Use an accessToken previously gotten to call Google's API
         GoogleCredential credential = new GoogleCredential().setAccessToken(accessToken);
         Calendar calendar =
                 new Calendar.Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance(), credential)
-                        .setApplicationName("Movie Nights")
+                        .setApplicationName("epicMovieTime")
                         .build();
 
 /*
@@ -103,6 +128,7 @@ public class CalendarController {
 {1}
     For more methods and properties, see: Google Calendar Documentation.
 */
+//        System.out.println("Before events");
         DateTime now = new DateTime(System.currentTimeMillis());
         Events events = null;
         try {

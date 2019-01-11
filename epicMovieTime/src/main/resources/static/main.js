@@ -1,4 +1,4 @@
-const CLIENT_ID = "613443354164-5kcj891c1oo134499n7q07nla718nuh8.apps.googleusercontent.com";
+const CLIENT_ID = "859616239523-q30d9kt5usner4a4070oi53gioduie33.apps.googleusercontent.com";
 
 
 function start() {
@@ -6,7 +6,7 @@ function start() {
         auth2 = gapi.auth2.init({
             client_id: CLIENT_ID,
             <!-- nodehill.com blog auto-converts non https-strings to https, thus the concatenation. -->
-            scope: "htt"+"p://www.googleapis.com/auth/calendar.events"
+            scope: "https://www.googleapis.com/auth/calendar.events"
         });
     });
 }
