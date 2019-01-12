@@ -1,5 +1,7 @@
 package com.example.demo.Controller;
 
+import com.example.demo.GoogleCalendar.CalendarCreateEvents;
+import com.example.demo.GoogleCalendar.CalendarShowEvents;
 import com.example.demo.Repository.MovieRepository;
 import com.example.demo.Classes.Movies;
 import com.example.demo.Classes.Search;
@@ -26,7 +28,8 @@ import static java.lang.Integer.parseInt;
 
 @RestController
 public class MainController {
-
+    private CalendarShowEvents calenderEvents;
+    private CalendarCreateEvents calenderCreate;
     private final MovieRepository repository;
     private final
     UserService userService;
@@ -35,9 +38,11 @@ public class MainController {
     //private final CalendarQuickstart quick;
 
     @Autowired
-    public MainController(MovieRepository repository, UserService userService) {
+    public MainController(MovieRepository repository,CalendarShowEvents calenderEvents,CalendarCreateEvents calenderCreate ,UserService userService) {
         this.repository = repository;
         this.userService = userService;
+        this.calenderEvents = calenderEvents;
+        this.calenderCreate = calenderCreate;
 //        NeweventTest calendar
 //        CalendarQuickstart quick
 //        this.quick = quick;
@@ -129,71 +134,71 @@ public class MainController {
 //        return new ResponseEntity<>(filterEvent, HttpStatus.OK);
 //    }
 
-//    @GetMapping("/main.html/suggestedDates")
-//    public ResponseEntity<ArrayList<List<DateTime>>> availableDates() throws IOException, GeneralSecurityException {
-//        ArrayList<List<DateTime>> bookedTime = new ArrayList<>();
-//        DateTime now = new DateTime(System.currentTimeMillis());
-//        ArrayList<List<Event>> allEvent = quick.showEvents();
-//        for (List<Event> list : allEvent) {
-//            for (Event event : list) {
-//                if(event.getStart().getDateTime() != null) {
-//                    List<DateTime> startAndEnd= new ArrayList<>();
-//                    long start = event.getStart().getDateTime().getValue();
-//                    long end = event.getEnd().getDateTime().getValue();
-//                    DateTime jodaStart = new DateTime(start);
-//                    DateTime jodaEnd = new DateTime(end);
-//                    startAndEnd.add(jodaStart);
-//                    startAndEnd.add(jodaEnd);
-//                    bookedTime.add(startAndEnd);
-//                } if(event.getStart().getDate() != null){
-//                    List<DateTime> startAndEndDate= new ArrayList<>();
-//                    long startDate = event.getStart().getDate().getValue();
-//                    long endDate = event.getEnd().getDate().getValue();
-//                    DateTime jodaStartDate = new DateTime(startDate);
-//                    DateTime jodaEndDate = new DateTime(endDate);
-//                    startAndEndDate.add(jodaStartDate);
-//                    startAndEndDate.add(jodaEndDate);
-//                    bookedTime.add(startAndEndDate);
-//                }
-//            }
-//        }
-//        ArrayList<List<DateTime>> hourPerDay= new ArrayList<>();
-//        List<DateTime> availableTimes = new ArrayList<>();
-//        int twentyDays = 480;
-//        for (int i = 0; i < twentyDays ; i++) {
-//            availableTimes = new ArrayList<>();
-//            int count =0;
-//            for (int j = 0; j < bookedTime.size(); j++) {
-//                if (!now.isBefore(bookedTime.get(j).get(0).minusHours(1)) && !now.isAfter(bookedTime.get(j).get(1))) {
-//                   // System.out.println(now);
-//                    count++;
-//                }
-//            }
-//            now = now.plusHours(1);
-//           // System.out.println(count);
-//            if(count == 0){
-//                System.out.println("Day: "+now.getDayOfMonth() + ". Hour of day: " + now.getHourOfDay());
-//                availableTimes.add(now);
-//                hourPerDay.add(availableTimes);
-//            }
-//            count=0;
-//        }
-//        return new ResponseEntity<>(hourPerDay, HttpStatus.OK);
-//    }
+    @GetMapping("/main.html/suggestedDates")
+    public ResponseEntity<ArrayList<List<DateTime>>> availableDates() throws IOException, GeneralSecurityException {
+        ArrayList<List<DateTime>> bookedTime = new ArrayList<>();
+        DateTime now = new DateTime(System.currentTimeMillis());
+        ArrayList<List<Event>> allEvent = calenderEvents.showEvents();
+        for (List<Event> list : allEvent) {
+            for (Event event : list) {
+                if(event.getStart().getDateTime() != null) {
+                    List<DateTime> startAndEnd= new ArrayList<>();
+                    long start = event.getStart().getDateTime().getValue();
+                    long end = event.getEnd().getDateTime().getValue();
+                    DateTime jodaStart = new DateTime(start);
+                    DateTime jodaEnd = new DateTime(end);
+                    startAndEnd.add(jodaStart);
+                    startAndEnd.add(jodaEnd);
+                    bookedTime.add(startAndEnd);
+                } if(event.getStart().getDate() != null){
+                    List<DateTime> startAndEndDate= new ArrayList<>();
+                    long startDate = event.getStart().getDate().getValue();
+                    long endDate = event.getEnd().getDate().getValue();
+                    DateTime jodaStartDate = new DateTime(startDate);
+                    DateTime jodaEndDate = new DateTime(endDate);
+                    startAndEndDate.add(jodaStartDate);
+                    startAndEndDate.add(jodaEndDate);
+                    bookedTime.add(startAndEndDate);
+                }
+            }
+        }
+        ArrayList<List<DateTime>> hourPerDay= new ArrayList<>();
+        List<DateTime> availableTimes = new ArrayList<>();
+        int twentyDays = 480;
+        for (int i = 0; i < twentyDays ; i++) {
+            availableTimes = new ArrayList<>();
+            int count =0;
+            for (int j = 0; j < bookedTime.size(); j++) {
+                if (!now.isBefore(bookedTime.get(j).get(0).minusHours(1)) && !now.isAfter(bookedTime.get(j).get(1))) {
+                   // System.out.println(now);
+                    count++;
+                }
+            }
+            now = now.plusHours(1);
+           // System.out.println(count);
+            if(count == 0){
+                System.out.println("Day: "+now.getDayOfMonth() + ". Hour of day: " + now.getHourOfDay());
+                availableTimes.add(now);
+                hourPerDay.add(availableTimes);
+            }
+            count=0;
+        }
+        return new ResponseEntity<>(hourPerDay, HttpStatus.OK);
+    }
 
 
-//    @GetMapping("/calendar/book")
-//    public ResponseEntity<String> string(@RequestParam String startDate, @RequestParam String endDate, @RequestParam String summary) throws IOException, GeneralSecurityException {
-//        if (startDate.equals(":00") || endDate.equals(":00")) {
-//            return new ResponseEntity<>("You need to select a YY-MM-DD TT-MM", HttpStatus.BAD_REQUEST);
-//        }
-//        if (summary == "" || summary == null) {
-//            return new ResponseEntity<>("You need to select a movie", HttpStatus.BAD_REQUEST);
-//        }
-//        calendar.gogo(startDate, endDate, summary);
-//        quick.showEvents();
-//        // ArrayList<List<Event>> asd = quick.showEvents();
-//
-//        return new ResponseEntity<>("Thank you for Booking the movie: " + summary + ". Emails have been sent to registered users for the start:" + startDate + ", and endng at:" + endDate, HttpStatus.OK);
-//    }
+    @GetMapping("/calendar/book")
+    public ResponseEntity<String> string(@RequestParam String startDate, @RequestParam String endDate, @RequestParam String summary) throws IOException, GeneralSecurityException {
+        if (startDate.equals(":00") || endDate.equals(":00")) {
+            return new ResponseEntity<>("You need to select a YY-MM-DD TT-MM", HttpStatus.BAD_REQUEST);
+        }
+        if (summary == "" || summary == null) {
+            return new ResponseEntity<>("You need to select a movie", HttpStatus.BAD_REQUEST);
+        }
+        calenderCreate.gogo(startDate, endDate, summary);
+        calenderEvents.showEvents();
+        // ArrayList<List<Event>> asd = quick.showEvents();
+
+        return new ResponseEntity<>("Thank you for Booking the movie: " + summary + ". Emails have been sent to registered users for the start:" + startDate + ", and endng at:" + endDate, HttpStatus.OK);
+    }
 }

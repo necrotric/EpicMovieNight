@@ -4,13 +4,8 @@
     <meta charset="UTF-8">
     <title>Epic Movie Nights</title>
 
-    <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="859616239523-q30d9kt5usner4a4070oi53gioduie33.apps.googleusercontent.com">
-
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/login.css">
-
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <!-- Axios is optional, include it if you want to use it instead of $.ajax (POST) -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
@@ -20,7 +15,9 @@
     <!-- This will contain your application's javascript code-->
     <script src="/main.js" defer></script>
 </head>
+
 <body>
+
 
 <header class="bgSlider">
     <section class="slider">
@@ -30,21 +27,21 @@
         <article class="slide four"><span>Epic Movie Nights</span></article>
     </section>
 </header>
-
+<!--<button id="signinButton">Link my Google Calendar</button>-->
 <div class="navbar">
-    <a href="#Login" onclick="document.getElementById('login').style.display='block'" style="width:auto;">Login</a>
-    <p>|</p>
-    <a target="_blank" rel="noopener noreferrer" href="https://accounts.google.com/signup/v2/webcreateaccount?hl=sv&flowName=GlifWebSignIn&flowEntry=SignUp">Register</a>
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <!--<a href="#Login" onclick="document.getElementById('login').style.display='block'" style="width:auto;">Login</a>-->
+    <!--<p>|</p>-->
+    <!--<a href="main.html" id="info">Info</a>-->
     <button id="signinButton">Link my Google Calendar</button>
-    <a href="main.html" id="info">Info</a>
 </div>
+
 
 <div id="login" class="modal">
 
     <form class="modal-content animate">
         <div class="gimage">
-            <span onclick="document.getElementById('login').style.display='none'" class="close" title="Close">&times;</span>
+            <span onclick="document.getElementById('login').style.display='none'" class="close"
+                  title="Close">&times;</span>
             <img src="image/Gplus.png" alt="Avatar" class="avatar">
         </div>
 
@@ -65,12 +62,12 @@
 <script type="text/javascript" src="js/login.js"></script>
 
 <script>
-        let modal = document.getElementById('login');
-        window.onclick = function (event) {
-            if (event.target === modal) {
-                modal.style.display = "none";
-            }
+    let modal = document.getElementById('login');
+    window.onclick = function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
         }
+    }
 </script>
 
 </body>

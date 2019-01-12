@@ -1,4 +1,4 @@
-const CLIENT_ID = "859616239523-q30d9kt5usner4a4070oi53gioduie33.apps.googleusercontent.com";
+const CLIENT_ID = "194892071018-51pbsvfvvj6fnvr26u8guonj9qe6v63o.apps.googleusercontent.com";
 
 
 function start() {
@@ -6,28 +6,19 @@ function start() {
         auth2 = gapi.auth2.init({
             client_id: CLIENT_ID,
             <!-- nodehill.com blog auto-converts non https-strings to https, thus the concatenation. -->
-            scope: "https://www.googleapis.com/auth/calendar.events"
+            scope: "htt"+"ps://www.googleapis.com/auth/calendar.events"
         });
     });
-}
-function onSignIn(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail());// This is null if the 'email' scope is not present.
 }
 
 $('#signinButton').click(function() {
 // signInCallback defined in step 6.
-    var ga = gapi.auth2.getAuthInstance();
-    ga.grantOfflineAccess().then(signInCallback);
+    auth2.grantOfflineAccess().then(signInCallback);
 });
 
 function signInCallback(authResult) {
     console.log('authResult', authResult);
     if (authResult['code']) {
-
 
         // Hide the sign-in button now that the user is authorized, for example:
         $('#signinButton').attr('style', 'display: none');
