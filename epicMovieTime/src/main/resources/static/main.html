@@ -74,14 +74,6 @@
 
 </div>
 <div class="anotherone">
-    <h2  v-if="mainMovieTitle===true">Movie to book:{{bookMovie}}</h2>
-    <h2>Booked events: </h2>
-    <ul>
-        <li v-for="resp in bookResponse">
-            <h4>{{resp}}</h4>
-        </li>
-    </ul>
-<div>
     <form>
         <label>Start Time:</label>
         <input type="datetime-local" required v-model="startDate" id="start"
@@ -93,6 +85,22 @@
         <button v-on:mouseup="bookInfo" v-on:mousedown="bookCalendar" type="button">BOOK</button>
         <p>{{bookingMessage}}</p>
     </form>
+<div>
+    <h2  v-if="mainMovieTitle===true">Movie to book:{{bookMovie}}</h2>
+    <button v-on:mousedown="calendarSuggestion" type="button">Show Suggested Dates</button>
+    <h2>Suggested Dates </h2>
+    <ul>
+        <li v-for="resp in calendarRespone">
+            <ul>
+                <li v-for="result in resp">
+                    <h4>{{result.year}}/{{result.monthOfYear}}/{{result.dayOfMonth}} Hour {{result.hourOfDay}}:00</h4>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+
+
 
 
     <div id="Search" class="overlay">
@@ -156,7 +164,8 @@
             showmovie: false,
             showBook: false,
             mainMovieTitle: false,
-            bookResponse: []
+            bookResponse: [],
+            calendarRespone: []
         },
         methods:{
             fetchPosts: function(){
@@ -187,6 +196,11 @@
             bookCalendar: function(){
                 axios.get("http://localhost:8080/calendar/book/?startDate=" +this.startDate+ ":00&endDate=" +this.endDate+ ":00&summary="+this.bookMovie).then(function(response){
                     this.bookingMessage = response.data
+                }.bind(this))
+            },
+            calendarSuggestion: function() {
+                axios.get("http://localhost:8080/main.html/suggestedDates").then(function (response) {
+                    this.calendarRespone = response.data
                 }.bind(this))
             }
         }

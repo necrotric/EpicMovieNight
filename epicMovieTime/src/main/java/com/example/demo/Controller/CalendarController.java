@@ -1,5 +1,25 @@
 package com.example.demo.Controller;
+import java.util.ArrayList;
+import java.util.List;
 
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import com.mongodb.client.model.FindOneAndUpdateOptions;
+import com.mongodb.client.model.Projections;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import com.example.demo.Classes.UserOauth;
 import com.example.demo.GoogleCalendar.CalendarShowEvents;
 import com.example.demo.GoogleCalendar.UpdateAccessToken;
@@ -15,7 +35,6 @@ import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
-import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
@@ -29,11 +48,13 @@ import java.util.List;
 public class CalendarController {
     private CalendarShowEvents calenderEvents;
     private final UserOauthRepository repository;
+    private MongoOperations mongoOperation;
     CalendarShowEvents showEvents;
     @Autowired
-    public CalendarController(UserOauthRepository repository,CalendarShowEvents calenderEvents) {
+    public CalendarController(UserOauthRepository repository,CalendarShowEvents calenderEvents,MongoOperations mongoOperation) {
         this.repository = repository;
         this.calenderEvents= calenderEvents;
+        this.mongoOperation = mongoOperation;
 
     }
 
@@ -108,80 +129,55 @@ public class CalendarController {
         userDetails.setRefreshToken(refreshToken);
         userDetails.setExpiresAt(expiresAt);
         List<UserOauth> userOauth = repository.findUserOauthByEmail(email);
-        System.out.println(userOauth);
+        UserOauth oneUser = repository.findOneUserOauthByEmail(email);
+//        System.out.println(userOauth.get(0).getEmail()+ " HERE is currently logged in user");
 //
+
+
         if(repository.findUserOauthByEmail(email).isEmpty()) {
        repository.save(userDetails);
-   }
-//        GoogleCredential credential = getRefreshedCredentials(refreshToken);
-//        credential.getAccessToken();
+        }
+        else if((!repository.findUserOauthByEmail(email).isEmpty())) {
+            Query query = new Query();
+            query.addCriteria(Criteria.where("email").is(email));
+            query.fields().include("email");
 
+            UserOauth userTest3 = mongoOperation.findOne(query, UserOauth.class);
+            System.out.println("userTest3 - " + userTest3);
+
+            Update update = new Update();
+            update.set("accessToken", accessToken);
+            update.set("refreshToken", refreshToken);
+
+            mongoOperation.updateFirst(query, update, UserOauth.class);
+
+
+        }
+        updateAccessToken();
+        calenderEvents.showEvents();
+        return "OK";
+    }
+    public void updateAccessToken() {
         UpdateAccessToken updateAccess = new UpdateAccessToken();
         List<UserOauth> updateUser = repository.findAll();
         for (UserOauth anUpdateUser : updateUser) {
-            System.out.println(anUpdateUser.getEmail());
+            // System.out.println(anUpdateUser.getEmail());
             GoogleCredential credential = updateAccess.getRefreshedCredentials(anUpdateUser.getRefreshToken());
-//            repository.deleteById(updateUser.get(i).Object);
-            // credential.getAccessToken();
-        }
-//        updateAccess.getRefreshedCredentials()
-
-        calenderEvents.showEvents();
+            System.out.println(credential.getAccessToken() + " New code???");
 
 
 
 
-//        // Use an accessToken previously gotten to call Google's API
-//        GoogleCredential credential = new GoogleCredential().setAccessToken(accessToken);
-////        System.out.println("Here is credentials:" + credential);
-//        Calendar calendar =
-//                new Calendar.Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance(), credential)
-//                        .setApplicationName("Movie Night")
-//                        .build();
+            Query query = new Query();
+            query.addCriteria(Criteria.where("email").is(anUpdateUser.getEmail()));
+            query.fields().include("email");
 
-/*
-  List the next 10 events from the primary calendar.
-    Instead of printing these with System out, you should ofcourse store them in a database or in-memory variable to use for your application.
-{1}
-    The most important parts are:
-    event.getSummary()             // Title of calendar event
-    event.getStart().getDateTime() // Start-time of event
-    event.getEnd().getDateTime()   // Start-time of event
-    event.getStart().getDate()     // Start-date (without time) of event
-    event.getEnd().getDate()       // End-date (without time) of event
-{1}
-    For more methods and properties, see: Google Calendar Documentation.
-*/
-//        System.out.println("Before events");
-//        DateTime now = new DateTime(System.currentTimeMillis());
-//        Events events = null;
-//        try {
-//            events = calendar.events().list("primary")
-//                    .setMaxResults(100)
-//                    .setTimeMin(now)
-//                    .setOrderBy("startTime")
-//                    .setSingleEvents(true)
-//                    .execute();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        List<Event> items = events.getItems();
-//        if (items.isEmpty()) {
-//            System.out.println("No upcoming events found.");
-//        } else {
-//            System.out.println("Upcoming events");
-//            for (Event event : items) {
-//                DateTime start = event.getStart().getDateTime();
-//                if (start == null) { // If it's an all-day-event - store the date instead
-//                    start = event.getStart().getDate();
-//                }
-//                DateTime end = event.getEnd().getDateTime();
-//                if (end == null) { // If it's an all-day-event - store the date instead
-//                    end = event.getStart().getDate();
-//                }
-//                System.out.printf("%s (%s) -> (%s)\n", event.getSummary(), start, end);
-//            }
-//        }
-        return "OK";
-    }
+            UserOauth userTest3 = mongoOperation.findOne(query, UserOauth.class);
+            System.out.println("userTest3 - " + userTest3);
+
+            Update update = new Update();
+            update.set("accessToken", credential.getAccessToken());
+
+            mongoOperation.updateFirst(query, update, UserOauth.class);
+        }}
 }

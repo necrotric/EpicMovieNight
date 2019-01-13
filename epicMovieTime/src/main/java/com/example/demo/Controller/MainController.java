@@ -1,12 +1,16 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Classes.UserOauth;
 import com.example.demo.GoogleCalendar.CalendarCreateEvents;
 import com.example.demo.GoogleCalendar.CalendarShowEvents;
+import com.example.demo.GoogleCalendar.UpdateAccessToken;
 import com.example.demo.Repository.MovieRepository;
 import com.example.demo.Classes.Movies;
 import com.example.demo.Classes.Search;
+import com.example.demo.Repository.UserOauthRepository;
 import com.example.demo.entities.User;
 import com.example.demo.services.UserService;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.services.calendar.model.Event;
 import org.apache.tomcat.jni.Local;
 import org.joda.time.DateTime;
@@ -31,18 +35,21 @@ public class MainController {
     private CalendarShowEvents calenderEvents;
     private CalendarCreateEvents calenderCreate;
     private final MovieRepository repository;
-    private final
-    UserService userService;
+    private UserOauthRepository userOauthRepository;
+    private final UserService userService;
+    private CalendarController calendarController;
    // private final NeweventTest calendar;
     private String findmovie = "";
     //private final CalendarQuickstart quick;
 
     @Autowired
-    public MainController(MovieRepository repository,CalendarShowEvents calenderEvents,CalendarCreateEvents calenderCreate ,UserService userService) {
+    public MainController(CalendarController calendarController,MovieRepository repository,CalendarShowEvents calenderEvents,CalendarCreateEvents calenderCreate ,UserService userService,UserOauthRepository userOauthRepository) {
         this.repository = repository;
         this.userService = userService;
         this.calenderEvents = calenderEvents;
         this.calenderCreate = calenderCreate;
+        this.userOauthRepository = userOauthRepository;
+        this.calendarController = calendarController;
 //        NeweventTest calendar
 //        CalendarQuickstart quick
 //        this.quick = quick;
@@ -81,9 +88,9 @@ public class MainController {
         Movies getFromDB = repository.findMoviesByimdbID(imdb);
         List<Movies> asaa = repository.findAll();
         asaa.size();
-        // System.out.println(asaa.size() + " amount of movies inside" );
-        // System.out.println("Inside API ;)"+ getFromDB);
-        if (getFromDB == null) {
+        ////////////////////////
+        calendarController.updateAccessToken();
+                if (getFromDB == null) {
             Movies movies = restTemplate.getForObject(
                     "http://www.omdbapi.com/?i=" + imdb + "&apikey=ea1db5cc", Movies.class);
 
