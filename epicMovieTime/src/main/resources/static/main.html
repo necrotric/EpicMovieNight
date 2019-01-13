@@ -74,6 +74,7 @@
 
 </div>
 <div class="anotherone">
+    <h2  v-if="mainMovieTitle===true">Movie to book:{{bookMovie}}</h2>
     <form>
         <label>Start Time:</label>
         <input type="datetime-local" required v-model="startDate" id="start"
@@ -83,10 +84,9 @@
         <input type="datetime-local" required v-model="endDate" id="end" value="2018-07-22"
                min="2018-01-01" max="2018-12-31">
         <button v-on:mouseup="bookInfo" v-on:mousedown="bookCalendar" type="button">BOOK</button>
-        <p>{{bookingMessage}}</p>
+        <h4>{{bookingMessage}}</h4>
     </form>
 <div>
-    <h2  v-if="mainMovieTitle===true">Movie to book:{{bookMovie}}</h2>
     <button v-on:mousedown="calendarSuggestion" type="button">Show Suggested Dates</button>
     <h2>Suggested Dates </h2>
     <ul>
