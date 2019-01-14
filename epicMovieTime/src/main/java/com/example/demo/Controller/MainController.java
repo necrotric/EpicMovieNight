@@ -89,7 +89,6 @@ public class MainController {
         List<Movies> asaa = repository.findAll();
         asaa.size();
         ////////////////////////
-        calendarController.updateAccessToken();
                 if (getFromDB == null) {
             Movies movies = restTemplate.getForObject(
                     "http://www.omdbapi.com/?i=" + imdb + "&apikey=ea1db5cc", Movies.class);

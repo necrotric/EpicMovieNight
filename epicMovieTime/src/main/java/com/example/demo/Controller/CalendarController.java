@@ -153,7 +153,6 @@ public class CalendarController {
 
 
         }
-        updateAccessToken();
         calenderEvents.showEvents();
         return "OK";
     }
