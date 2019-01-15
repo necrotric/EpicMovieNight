@@ -92,6 +92,20 @@
         </div>
     </div>
 <div>
+
+<div>
+    <button v-on:mousedown="calendarSuggestion" type="button">Show Suggested Dates</button>
+    <h2>Suggested Dates </h2>
+    <ul>
+        <li v-for="resp in calendarRespone">
+            <ul>
+                <li v-for="result in resp">
+                    <h4>{{result.year}}/{{result.monthOfYear}}/{{result.dayOfMonth}} Hour {{result.hourOfDay}}:00</h4>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
     <div id="Search" class="overlay">
         <span class="closebtn" onclick="closeSearch()" title="Close Overlay">×</span>
         <div class="overlay-content">
@@ -160,7 +174,8 @@
             showmovie: false,
             showBook: false,
             mainMovieTitle: false,
-            bookResponse: []
+            bookResponse: [],
+            calendarRespone: []
         },
         methods:{
             fetchPosts: function(){
@@ -191,6 +206,11 @@
             bookCalendar: function(){
                 axios.get("http://localhost:8080/calendar/book/?startDate=" +this.startDate+ ":00&endDate=" +this.endDate+ ":00&summary="+this.bookMovie).then(function(response){
                     this.bookingMessage = response.data
+                }.bind(this))
+            },
+            calendarSuggestion: function() {
+                axios.get("http://localhost:8080/main.html/suggestedDates").then(function (response) {
+                    this.calendarRespone = response.data
                 }.bind(this))
             }
         }

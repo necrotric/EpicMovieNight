@@ -1,10 +1,16 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Classes.UserOauth;
+import com.example.demo.GoogleCalendar.CalendarCreateEvents;
+import com.example.demo.GoogleCalendar.CalendarShowEvents;
+import com.example.demo.GoogleCalendar.UpdateAccessToken;
 import com.example.demo.Repository.MovieRepository;
 import com.example.demo.Classes.Movies;
 import com.example.demo.Classes.Search;
+import com.example.demo.Repository.UserOauthRepository;
 import com.example.demo.entities.User;
 import com.example.demo.services.UserService;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.services.calendar.model.Event;
 import org.apache.tomcat.jni.Local;
 import org.joda.time.DateTime;
@@ -26,21 +32,28 @@ import static java.lang.Integer.parseInt;
 
 @RestController
 public class MainController {
-
+    private CalendarShowEvents calenderEvents;
+    private CalendarCreateEvents calenderCreate;
     private final MovieRepository repository;
-    private final
-    UserService userService;
-    private final
-    NeweventTest calendar;
+    private UserOauthRepository userOauthRepository;
+    private final UserService userService;
+    private CalendarController calendarController;
+   // private final NeweventTest calendar;
     private String findmovie = "";
-    private final CalendarQuickstart quick;
+    //private final CalendarQuickstart quick;
 
     @Autowired
-    public MainController(MovieRepository repository, UserService userService, CalendarQuickstart quick, NeweventTest calendar) {
+    public MainController(CalendarController calendarController,MovieRepository repository,CalendarShowEvents calenderEvents,CalendarCreateEvents calenderCreate ,UserService userService,UserOauthRepository userOauthRepository) {
         this.repository = repository;
         this.userService = userService;
-        this.quick = quick;
-        this.calendar = calendar;
+        this.calenderEvents = calenderEvents;
+        this.calenderCreate = calenderCreate;
+        this.userOauthRepository = userOauthRepository;
+        this.calendarController = calendarController;
+//        NeweventTest calendar
+//        CalendarQuickstart quick
+//        this.quick = quick;
+//        this.calendar = calendar;
     }
 
     @GetMapping("/title")
@@ -75,9 +88,8 @@ public class MainController {
         Movies getFromDB = repository.findMoviesByimdbID(imdb);
         List<Movies> asaa = repository.findAll();
         asaa.size();
-        // System.out.println(asaa.size() + " amount of movies inside" );
-        // System.out.println("Inside API ;)"+ getFromDB);
-        if (getFromDB == null) {
+        ////////////////////////
+                if (getFromDB == null) {
             Movies movies = restTemplate.getForObject(
                     "http://www.omdbapi.com/?i=" + imdb + "&apikey=ea1db5cc", Movies.class);
 
@@ -91,48 +103,48 @@ public class MainController {
         return new ResponseEntity<>(getFromDB, HttpStatus.OK);
     }
 
-    @GetMapping("/main.html/giveinfo")
-    public ResponseEntity<List<String>> events() throws IOException, GeneralSecurityException {
-
-
-        ArrayList<List<Event>> asd = quick.showEvents();
-        System.out.println(asd.size());
-        System.out.println("After this ----------------------------------- \n\n\n");
-        // System.out.println(asd.get(0).get(0).getSummary());
-        List<String> filterEvent = new ArrayList<>();
-
-        for (List<Event> e : asd) {
-            for (Event ev : e) {
-                String sumAndDate = "";
-                if (ev.getStart().getDate() == null) {
-                    sumAndDate = "" + ev.getSummary() + "  " + ev.getStart().getDateTime();
-                }
-                if (ev.getStart().getDateTime() == null) {
-                    sumAndDate = "" + ev.getSummary() + "  " + ev.getStart().getDate();
-                }
-//                System.out.println(sumAndDate);
-                if (!filterEvent.contains(sumAndDate)) {
-                    filterEvent.add(sumAndDate);
-                }
-            }
-
-        }
-        System.out.println(filterEvent.size());
-        if (filterEvent.isEmpty()) {
-            System.out.println("Do we get into filterevent == null");
-            return new ResponseEntity<>(filterEvent, HttpStatus.NO_CONTENT);
-        }
-//        for (String s: filterEvent) {
-//            System.out.println(s);
+//    @GetMapping("/main.html/giveinfo")
+//    public ResponseEntity<List<String>> events() throws IOException, GeneralSecurityException {
+//
+//
+//        ArrayList<List<Event>> asd = quick.showEvents();
+//        System.out.println(asd.size());
+//        System.out.println("After this ----------------------------------- \n\n\n");
+//        // System.out.println(asd.get(0).get(0).getSummary());
+//        List<String> filterEvent = new ArrayList<>();
+//
+//        for (List<Event> e : asd) {
+//            for (Event ev : e) {
+//                String sumAndDate = "";
+//                if (ev.getStart().getDate() == null) {
+//                    sumAndDate = "" + ev.getSummary() + "  " + ev.getStart().getDateTime();
+//                }
+//                if (ev.getStart().getDateTime() == null) {
+//                    sumAndDate = "" + ev.getSummary() + "  " + ev.getStart().getDate();
+//                }
+////                System.out.println(sumAndDate);
+//                if (!filterEvent.contains(sumAndDate)) {
+//                    filterEvent.add(sumAndDate);
+//                }
+//            }
+//
 //        }
-        return new ResponseEntity<>(filterEvent, HttpStatus.OK);
-    }
+//        System.out.println(filterEvent.size());
+//        if (filterEvent.isEmpty()) {
+//            System.out.println("Do we get into filterevent == null");
+//            return new ResponseEntity<>(filterEvent, HttpStatus.NO_CONTENT);
+//        }
+////        for (String s: filterEvent) {
+////            System.out.println(s);
+////        }
+//        return new ResponseEntity<>(filterEvent, HttpStatus.OK);
+//    }
 
     @GetMapping("/main.html/suggestedDates")
     public ResponseEntity<ArrayList<List<DateTime>>> availableDates() throws IOException, GeneralSecurityException {
         ArrayList<List<DateTime>> bookedTime = new ArrayList<>();
         DateTime now = new DateTime(System.currentTimeMillis());
-        ArrayList<List<Event>> allEvent = quick.showEvents();
+        ArrayList<List<Event>> allEvent = calenderEvents.showEvents();
         for (List<Event> list : allEvent) {
             for (Event event : list) {
                 if(event.getStart().getDateTime() != null) {
@@ -189,8 +201,8 @@ public class MainController {
         if (summary == "" || summary == null) {
             return new ResponseEntity<>("You need to select a movie", HttpStatus.BAD_REQUEST);
         }
-        calendar.gogo(startDate, endDate, summary);
-        quick.showEvents();
+        calenderCreate.gogo(startDate, endDate, summary);
+        calenderEvents.showEvents();
         // ArrayList<List<Event>> asd = quick.showEvents();
 
         return new ResponseEntity<>("Thank you for Booking the movie: " + summary + ". Emails have been sent to registered users for the start:" + startDate + ", and endng at:" + endDate, HttpStatus.OK);
