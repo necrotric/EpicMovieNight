@@ -16,11 +16,11 @@
     </section>
 </header>
 <div class="navbar">
-    <!--<a href="#Login" onclick="document.getElementById('login').style.display='block'" style="width:auto;">Login</a>-->
-    <!--<p>|</p>-->
+    <a href="#" id="signinButton">Login</a>
+    <a href="#" onclick="signOut()" id="signOut">Logout</a>
+    <p>|</p>
     <a href="http://localhost:8080/main.html" id="mainButton">Main</a>
     <a href="#Info" onclick="document.getElementById('generalInfo').style.display='block'" style="width:auto;" id="info">Info</a>
-    <button id="signinButton">Link my Google Calendar</button>
 </div>
 <div id="generalInfo" class="modal">
 
@@ -70,18 +70,25 @@
     </form>
 </div>
 
-
-
-<!--<button id="signinButton">Link my Google Calendar</button>-->
-<!-- Axios is optional, include it if you want to use it instead of $.ajax (POST) -->
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
 
-<!-- This will contain your application's javascript code-->
 <script src="/main.js" defer></script>
 
 <script type="text/javascript" src="js/info.js"></script>
+
+<script>
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            console.log('User signed out.');
+        });
+        $('#signinButton').attr('style', 'display: block');
+        $('#signOut').attr('style', 'display: none');
+    }
+</script>
+
 </body>
 </html>

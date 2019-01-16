@@ -1,5 +1,5 @@
-var router = new VueRouter();
-var app = new Vue({
+let router = new VueRouter();
+let app = new Vue({
     el: '#root',
     data:{
         movies:[],
@@ -30,4 +30,4 @@ var app = new Vue({
             }.bind(this))
         }
     }
-})
+});

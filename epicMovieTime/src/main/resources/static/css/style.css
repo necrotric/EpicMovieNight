@@ -171,3 +171,11 @@ q {font-style: italic;}
 .slideshow-container span {
     color: whitesmoke;
 }
+
+#signOut {
+    display: none;
+}
+
+#mainButton {
+    display: none;
+}
