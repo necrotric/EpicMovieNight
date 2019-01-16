@@ -1,7 +1,6 @@
 package com.example.demo;
 
 import com.example.demo.Controller.CalendarController;
-import com.example.demo.Controller.MainController;
 import com.example.demo.entities.Role;
 import com.example.demo.entities.User;
 import com.example.demo.services.UserService;
@@ -20,11 +19,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
-public class DemoApplication {
+public class MovieApplication {
     private static CalendarController controller;
 
     @Autowired
-    public DemoApplication(CalendarController controller){
+    public MovieApplication(CalendarController controller){
         this.controller = controller;
     }
     @Bean
@@ -45,7 +44,7 @@ public class DemoApplication {
         return new BCryptPasswordEncoder();
     }
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(MovieApplication.class, args);
         asd();
         Runnable runnable = new Runnable() {
             public void run() {

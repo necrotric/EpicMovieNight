@@ -179,3 +179,17 @@ q {font-style: italic;}
 #mainButton {
     display: none;
 }
+
+#Available h3 {
+    position: relative;
+    color: whitesmoke;
+    left: -7%;
+    font-size: 24px;
+}
+
+#AvailableDates {
+    position: relative;
+    color: whitesmoke;
+    left: -7%;
+    font-size: 24px;
+}

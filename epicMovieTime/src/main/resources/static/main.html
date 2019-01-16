@@ -48,8 +48,11 @@
     <p>|</p>
     <a href="#Search" onclick=openSearch();>Search</a>
     <p>|</p>
-    <a href="#Booked" onclick="app.bookInfo(), openEvents();" style="width:auto;" >Booked Events</a>
-    <a href="#Info" onclick="document.getElementById('generalInfo').style.display='block'" style="width:auto;" id="info">Info</a>
+    <a href="#Available" onclick="openDates(), app.calendarSuggestion();">Available Dates</a>
+    <p>|</p>
+    <a href="#Booked" onclick="app.bookInfo(), openEvents();" style="width:auto;">Booked Events</a>
+    <a href="#Info" onclick="document.getElementById('generalInfo').style.display='block'" style="width:auto;"
+       id="info">Info</a>
 </div>
 
 <div class="movieIndex">
@@ -61,9 +64,12 @@
         <label id="endTxt">End Time: </label>
         <input type="datetime-local" required v-model="endDate" id="endDate" value="2018-07-22"
                min="2018-01-01" max="2018-12-31">
-        <button v-on:mouseup="calendarSuggestion" v-on:mousedown="bookCalendar" id="calendarBookBt" type="button">Confirm</button>
+        <button v-on:mouseup="calendarSuggestion" v-on:mousedown="bookCalendar" id="calendarBookBt" type="button">
+            Confirm
+        </button>
         <h4>{{bookingMessage}}</h4>
-    </form><br><br><br>
+    </form>
+    <br><br><br>
     <ul v-if="mainMovieTitle===true">
         <img v-bind:src="movieSearch.Poster" align="left" style="margin-right: 10px" height="210" width="210">
         <li>Title: {{ movieSearch.Title }}</li>
@@ -84,54 +90,68 @@
                     <h4 id="bookedResult">{{resp}}</h4>
                 </li>
             </ul>
-            <video autoplay muted loop>
+            <video autoplay muted>
                 <source src="image/universal.mp4" type="video/mp4">
             </video>
         </div>
     </div>
-<div>
+    <div>
 
-<div>
-    <button v-on:mousedown="calendarSuggestion" type="button">Show Suggested Dates</button>
-    <h2>Suggested Dates </h2>
-    <ul>
-        <li v-for="resp in calendarRespone">
-            <ul>
-                <li v-for="result in resp">
-                    <h4>{{result.year}}/{{result.monthOfYear}}/{{result.dayOfMonth}} Hour {{result.hourOfDay}}:00</h4>
-                </li>
-            </ul>
-        </li>
-    </ul>
-</div>
-    <div id="Search" class="overlay">
-        <span class="closebtn" onclick="closeSearch()" title="Close Overlay">×</span>
-        <div class="overlay-content">
-            <form autocomplete="off">
-                <div class="autocomplete">
-                    <input v-on:keyup="fetchPosts" v-model="mainSearch" type="text" placeholder="Search.." id="userSearch" name="search">
-                    <button v-if="showBook===true" v-on:mousedown="bookInfo" v-on:click="mainMovieTitle=true, bookMovie = movieSearch.Title" onclick="closeSearch()" type="button" id="bookBt"></button>
-                    <ul v-if="showSearchList===true" class="search-group">
-                        <li v-for="movie in movies">
-                            <br><br><br><p id="autoResult" v-on:mouseup="movieInfo" v-on:mousedown="mainSearch= movie.Title, search= movie.imdbID" >{{movie.Title + " | " + movie.Year}}</p>
-                        </li>
-                    </ul>
-                    <br><br><br>
-                    <ul v-if="showmovie===true" id="movieResult">
-                        <img v-bind:src="movieSearch.Poster" align="left" style="margin-right: 10px" height="210" width="210">
-                        <li>Title: {{ movieSearch.Title }}</li>
-                        <li>Released: {{ movieSearch.Year }}</li>
-                        <li>Genre: {{ movieSearch.Genre }}</li>
-                        <li>Runtime: {{ movieSearch.Runtime }}</li>
-                        <li>Plot: {{ movieSearch.Plot}}</li>
-                        <li>Country: {{ movieSearch.Country }}</li>
-                        <li>IMDB Rating: {{movieSearch.imdbRating}}</li>
-                    </ul>
-                </div>
-            </form>
+        <div id="Available" class="overlayBook">
+            <div class="overlay-content">
+                <span class="closebtnBook" onclick="closeDates()" title="Close Overlay">×</span>
+                <ul>
+                    <h3>Available Dates</h3>
+                    <li v-for="resp in calendarRespone">
+                        <ul>
+                            <li v-for="result in resp">
+                                <h4 id="AvailableDates">{{result.year}}/{{result.monthOfYear}}/{{result.dayOfMonth}} Hour
+                                    {{result.hourOfDay}}:00</h4>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <video autoplay muted loop>
+                    <source src="image/universal.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <div id="Search" class="overlay">
+            <span class="closebtn" onclick="closeSearch()" title="Close Overlay">×</span>
+            <div class="overlay-content">
+                <form autocomplete="off">
+                    <div class="autocomplete">
+                        <input v-on:keyup="fetchPosts" v-model="mainSearch" type="text" placeholder="Search.."
+                               id="userSearch" name="search">
+                        <button v-if="showBook===true" v-on:mousedown="bookInfo"
+                                v-on:click="mainMovieTitle=true, bookMovie = movieSearch.Title" onclick="closeSearch()"
+                                type="button" id="bookBt"></button>
+                        <ul v-if="showSearchList===true" class="search-group">
+                            <li v-for="movie in movies">
+                                <br><br><br>
+                                <p id="autoResult" v-on:mouseup="movieInfo"
+                                   v-on:mousedown="mainSearch= movie.Title, search= movie.imdbID">{{movie.Title + " | "
+                                    + movie.Year}}</p>
+                            </li>
+                        </ul>
+                        <br><br><br>
+                        <ul v-if="showmovie===true" id="movieResult">
+                            <img v-bind:src="movieSearch.Poster" align="left" style="margin-right: 10px" height="210"
+                                 width="210">
+                            <li>Title: {{ movieSearch.Title }}</li>
+                            <li>Released: {{ movieSearch.Year }}</li>
+                            <li>Genre: {{ movieSearch.Genre }}</li>
+                            <li>Runtime: {{ movieSearch.Runtime }}</li>
+                            <li>Plot: {{ movieSearch.Plot}}</li>
+                            <li>Country: {{ movieSearch.Country }}</li>
+                            <li>IMDB Rating: {{movieSearch.imdbRating}}</li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 </div>
 
 <div id="generalInfo" class="modal">
@@ -141,30 +161,45 @@
             <span onclick="document.getElementById('generalInfo').style.display='none'" class="close" title="Close">&times;</span>
 
             <div class="mySlides">
-                <q>OAuth is a standard that applications (and the developers who love them) can use to provide client applications with “secure delegated access”. OAuth works over HTTP and authorizes Devices, APIs, Servers and Applications with access tokens rather than credentials, which we will go over in depth below.</q>
-                <li>Fördelar: </li>
-                <li>Nackdelar: </li>
+                <q>OAuth is a standard that applications (and the developers who love them) can use to provide client
+                    applications with “secure delegated access”. OAuth works over HTTP and authorizes Devices, APIs,
+                    Servers and Applications with access tokens rather than credentials, which we will go over in depth
+                    below.</q>
+                <li>Fördelar:</li>
+                <li>Nackdelar:</li>
                 <p class="target">- OAuth2</p>
             </div>
 
             <div class="mySlides">
-                <q>OpenID Connect is a simple identity layer on top of the OAuth 2.0 protocol, which allows computing clients to verify the identity of an end-user based on the authentication performed by an authorization server, as well as to obtain basic profile information about the end-user in an interoperable and REST-like manner.</q>
-                <li>Fördelar: </li>
-                <li>Nackdelar: </li>
+                <q>OpenID Connect is a simple identity layer on top of the OAuth 2.0 protocol, which allows computing
+                    clients to verify the identity of an end-user based on the authentication performed by an
+                    authorization server, as well as to obtain basic profile information about the end-user in an
+                    interoperable and REST-like manner.</q>
+                <li>Fördelar:</li>
+                <li>Nackdelar:</li>
                 <p class="target">- OpenID Connect</p>
             </div>
 
             <div class="mySlides">
-                <q>JSON Web Token (JWT) is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is digitally signed.</q>
-                <li>Fördelar: </li>
-                <li>Nackdelar: </li>
+                <q>JSON Web Token (JWT) is an open standard (RFC 7519) that defines a compact and self-contained way for
+                    securely transmitting information between parties as a JSON object. This information can be verified
+                    and trusted because it is digitally signed.</q>
+                <li>Fördelar:</li>
+                <li>Nackdelar:</li>
                 <p class="target">- JWT</p>
             </div>
 
             <div class="mySlides">
-                <q>HTTPS stands for Hyper Text Transfer Protocol Secure. It is a protocol for securing the communication between two systems e.g. the browser and the web server. HTTPS transfers data between the browser and the web server in the hypertext format, whereas https transfers data in the encrypted format. Thus, https prevents hackers from reading and modifying the data during the transfer between the browser and the web server. Even if hackers manage to intercept the communication, they will not be able to use it because the message is encrypted. HTTPS established an encrypted link between the browser and the web server using the Secure Socket Layer (SSL) or Transport Layer Security (TLS) protocols.</q>
-                <li>Fördelar: </li>
-                <li>Nackdelar: </li>
+                <q>HTTPS stands for Hyper Text Transfer Protocol Secure. It is a protocol for securing the communication
+                    between two systems e.g. the browser and the web server. HTTPS transfers data between the browser
+                    and the web server in the hypertext format, whereas https transfers data in the encrypted format.
+                    Thus, https prevents hackers from reading and modifying the data during the transfer between the
+                    browser and the web server. Even if hackers manage to intercept the communication, they will not be
+                    able to use it because the message is encrypted. HTTPS established an encrypted link between the
+                    browser and the web server using the Secure Socket Layer (SSL) or Transport Layer Security (TLS)
+                    protocols.</q>
+                <li>Fördelar:</li>
+                <li>Nackdelar:</li>
                 <p class="target">- HTTPS</p>
             </div>
 
@@ -190,12 +225,21 @@
     function closeSearch() {
         document.getElementById("Search").style.display = "none";
     }
+
     function openEvents() {
         document.getElementById("Booked").style.display = "block";
     }
 
     function closeEvents() {
         document.getElementById("Booked").style.display = "none";
+    }
+
+    function openDates() {
+        document.getElementById("Available").style.display = "block";
+    }
+
+    function closeDates() {
+        document.getElementById("Available").style.display = "none";
     }
 </script>
 
