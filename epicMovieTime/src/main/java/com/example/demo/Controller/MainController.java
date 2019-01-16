@@ -103,42 +103,42 @@ public class MainController {
         return new ResponseEntity<>(getFromDB, HttpStatus.OK);
     }
 
-//    @GetMapping("/main.html/giveinfo")
-//    public ResponseEntity<List<String>> events() throws IOException, GeneralSecurityException {
-//
-//
-//        ArrayList<List<Event>> asd = quick.showEvents();
-//        System.out.println(asd.size());
-//        System.out.println("After this ----------------------------------- \n\n\n");
-//        // System.out.println(asd.get(0).get(0).getSummary());
-//        List<String> filterEvent = new ArrayList<>();
-//
-//        for (List<Event> e : asd) {
-//            for (Event ev : e) {
-//                String sumAndDate = "";
-//                if (ev.getStart().getDate() == null) {
-//                    sumAndDate = "" + ev.getSummary() + "  " + ev.getStart().getDateTime();
-//                }
-//                if (ev.getStart().getDateTime() == null) {
-//                    sumAndDate = "" + ev.getSummary() + "  " + ev.getStart().getDate();
-//                }
-////                System.out.println(sumAndDate);
-//                if (!filterEvent.contains(sumAndDate)) {
-//                    filterEvent.add(sumAndDate);
-//                }
-//            }
-//
+    @GetMapping("/main.html/giveinfo")
+    public ResponseEntity<List<String>> events() throws IOException, GeneralSecurityException {
+
+
+        ArrayList<List<Event>> asd = calenderEvents.showBookedEvents();
+        System.out.println(asd.size());
+        System.out.println("After this ----------------------------------- \n\n\n");
+        // System.out.println(asd.get(0).get(0).getSummary());
+        List<String> filterEvent = new ArrayList<>();
+
+        for (List<Event> e : asd) {
+            for (Event ev : e) {
+                String sumAndDate = "";
+                if (ev.getStart().getDate() == null) {
+                    sumAndDate = "" + ev.getSummary() + "  " + ev.getStart().getDateTime();
+                }
+                if (ev.getStart().getDateTime() == null) {
+                    sumAndDate = "" + ev.getSummary() + "  " + ev.getStart().getDate();
+                }
+//                System.out.println(sumAndDate);
+                if (!filterEvent.contains(sumAndDate)) {
+                    filterEvent.add(sumAndDate);
+                }
+            }
+
+        }
+        System.out.println(filterEvent.size());
+        if (filterEvent.isEmpty()) {
+            System.out.println("Do we get into filterevent == null");
+            return new ResponseEntity<>(filterEvent, HttpStatus.NO_CONTENT);
+        }
+//        for (String s: filterEvent) {
+//            System.out.println(s);
 //        }
-//        System.out.println(filterEvent.size());
-//        if (filterEvent.isEmpty()) {
-//            System.out.println("Do we get into filterevent == null");
-//            return new ResponseEntity<>(filterEvent, HttpStatus.NO_CONTENT);
-//        }
-////        for (String s: filterEvent) {
-////            System.out.println(s);
-////        }
-//        return new ResponseEntity<>(filterEvent, HttpStatus.OK);
-//    }
+        return new ResponseEntity<>(filterEvent, HttpStatus.OK);
+    }
 
     @GetMapping("/main.html/suggestedDates")
     public ResponseEntity<ArrayList<List<DateTime>>> availableDates() throws IOException, GeneralSecurityException {
