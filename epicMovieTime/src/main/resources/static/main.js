@@ -3,7 +3,7 @@ const CLIENT_ID = "194892071018-51pbsvfvvj6fnvr26u8guonj9qe6v63o.apps.googleuser
 
 function start() {
     gapi.load('auth2', function() {
-        auth2 = gapi.auth2.init({
+        let auth2 = gapi.auth2.init({
             client_id: CLIENT_ID,
             <!-- nodehill.com blog auto-converts non https-strings to https, thus the concatenation. -->
             scope: "htt"+"ps://www.googleapis.com/auth/calendar.events"

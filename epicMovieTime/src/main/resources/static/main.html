@@ -44,11 +44,9 @@
 </template>
 
 <div class="navbar">
-    <a href="#Logout" onclick="signOut();" style="width:auto;">Logout</a>
-    <p>|</p>
     <a href="#Search" onclick=openSearch();>Search</a>
     <p>|</p>
-    <a href="#Booked" onclick="openEvents();" style="width:auto;" v-on:click="bookInfo">Booked Events</a>
+    <a href="#Booked" onclick="app.bookInfo(), openEvents();" style="width:auto;" >Booked Events</a>
     <a href="#Info" onclick="document.getElementById('generalInfo').style.display='block'" style="width:auto;" id="info">Info</a>
 </div>
 <div>
@@ -63,9 +61,9 @@
         <label id="endTxt">End Time: </label>
         <input type="datetime-local" required v-model="endDate" id="endDate" value="2018-07-22"
                min="2018-01-01" max="2018-12-31">
-        <button v-on:mouseup="bookInfo" v-on:mousedown="bookCalendar" id="calendarBookBt" type="button">Confirm</button>
-        <p>{{bookingMessage}}</p>
-    </form>
+        <button v-on:mouseup="calendarSuggestion" v-on:mousedown="bookCalendar" id="calendarBookBt" type="button">Confirm</button>
+        <h4>{{bookingMessage}}</h4>
+    </form><br><br><br><br><br><br>
     <ul v-if="mainMovieTitle===true">
         <img v-bind:src="movieSearch.Poster" align="left" style="margin-right: 10px" height="210" width="210">
         <li>Title: {{ movieSearch.Title }}</li>
@@ -79,11 +77,11 @@
     </ul>
     <div id="Booked" class="overlayBook">
         <div class="overlay-content">
-            <span class="closebtnBook" onclick="closeEvents()" v-on:click="bookInfo" title="Close Overlay">×</span>
+            <span class="closebtnBook" onclick="closeEvents()" title="Close Overlay">×</span>
             <h2 id="events">Booked events: </h2>
             <ul>
                 <li v-for="resp in bookResponse"><br>
-                    <h4 id="bookedResult" v-on:click="bookInfo">{{resp}}</h4>
+                    <h4 id="bookedResult">{{resp}}</h4>
                 </li>
             </ul>
             <video autoplay muted loop>
