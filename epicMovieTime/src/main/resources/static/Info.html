@@ -2,9 +2,61 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Grundläggande Information</title>
+    <title>Epic Movie Nights</title>
+
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body>
+
+<div class="generalInfo">
+<h2>General Information</h2>
+
+</div>
+
+<div class="navbar">
+    <a href="#Login" onclick="document.getElementById('login').style.display='block'" style="width:auto;">Login</a>
+    <p>|</p>
+    <a target="_blank" rel="noopener noreferrer" href="https://accounts.google.com/signup/v2/webcreateaccount?hl=sv&flowName=GlifWebSignIn&flowEntry=SignUp">Register</a>
+    <a href="index.html" id="info">Home</a>
+</div>
+
+<div id="login" class="modal">
+    <form class="modal-content animate">
+        <div class="gimage">
+            <span onclick="document.getElementById('login').style.display='none'" class="close" title="Close">&times;</span>
+            <img src="image/Gplus.png" alt="Avatar" class="avatar">
+        </div>
+
+        <div class="container">
+            <label><b>Username</b></label>
+            <input type="text" id="username" placeholder="Enter Username" required>
+
+            <label><b>Password</b></label>
+            <input type="password" id="password" placeholder="Enter Password" required>
+            <button id="loginBt" onclick="validate()"></button>
+
+            <!--<div class="g-signin2" data-onsuccess="onSignIn" onclick="onSignIn()" id="loginBt"></div>-->
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript" src="js/login.js"></script>
+
+<script>
+    let modal = document.getElementById('login');
+    window.onclick = function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
 
 </body>
 </html>

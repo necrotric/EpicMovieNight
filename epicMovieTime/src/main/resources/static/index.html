@@ -2,23 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Epic Movie Nights</title>
-
+    <title>Title</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/login.css">
-    <!-- Axios is optional, include it if you want to use it instead of $.ajax (POST) -->
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
-
-    <!-- This will contain your application's javascript code-->
-    <script src="/main.js" defer></script>
 </head>
-
 <body>
-
-
 <header class="bgSlider">
     <section class="slider">
         <article class="slide one"><span>Epic Movie Nights</span></article>
@@ -27,48 +15,73 @@
         <article class="slide four"><span>Epic Movie Nights</span></article>
     </section>
 </header>
-<!--<button id="signinButton">Link my Google Calendar</button>-->
 <div class="navbar">
     <!--<a href="#Login" onclick="document.getElementById('login').style.display='block'" style="width:auto;">Login</a>-->
     <!--<p>|</p>-->
-    <!--<a href="main.html" id="info">Info</a>-->
+    <a href="http://localhost:8080/main.html" id="mainButton">Main</a>
+    <a href="#Info" onclick="document.getElementById('generalInfo').style.display='block'" style="width:auto;" id="info">Info</a>
     <button id="signinButton">Link my Google Calendar</button>
 </div>
-
-
-<div id="login" class="modal">
+<div id="generalInfo" class="modal">
 
     <form class="modal-content animate">
-        <div class="gimage">
-            <span onclick="document.getElementById('login').style.display='none'" class="close"
-                  title="Close">&times;</span>
-            <img src="image/Gplus.png" alt="Avatar" class="avatar">
+        <div class="slideshow-container">
+            <span onclick="document.getElementById('generalInfo').style.display='none'" class="close" title="Close">&times;</span>
+
+            <div class="mySlides">
+                <q>OAuth is a standard that applications (and the developers who love them) can use to provide client applications with “secure delegated access”. OAuth works over HTTP and authorizes Devices, APIs, Servers and Applications with access tokens rather than credentials, which we will go over in depth below.</q>
+                <li>Fördelar: </li>
+                <li>Nackdelar: </li>
+                <p class="target">- OAuth2</p>
+            </div>
+
+            <div class="mySlides">
+                <q>OpenID Connect is a simple identity layer on top of the OAuth 2.0 protocol, which allows computing clients to verify the identity of an end-user based on the authentication performed by an authorization server, as well as to obtain basic profile information about the end-user in an interoperable and REST-like manner.</q>
+                <li>Fördelar: </li>
+                <li>Nackdelar: </li>
+                <p class="target">- OpenID Connect</p>
+            </div>
+
+            <div class="mySlides">
+                <q>JSON Web Token (JWT) is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is digitally signed.</q>
+                <li>Fördelar: </li>
+                <li>Nackdelar: </li>
+                <p class="target">- JWT</p>
+            </div>
+
+            <div class="mySlides">
+                <q>HTTPS stands for Hyper Text Transfer Protocol Secure. It is a protocol for securing the communication between two systems e.g. the browser and the web server. HTTPS transfers data between the browser and the web server in the hypertext format, whereas https transfers data in the encrypted format. Thus, https prevents hackers from reading and modifying the data during the transfer between the browser and the web server. Even if hackers manage to intercept the communication, they will not be able to use it because the message is encrypted. HTTPS established an encrypted link between the browser and the web server using the Secure Socket Layer (SSL) or Transport Layer Security (TLS) protocols.</q>
+                <li>Fördelar: </li>
+                <li>Nackdelar: </li>
+                <p class="target">- HTTPS</p>
+            </div>
+
+            <a class="prev" onclick="plusSlides(-1)">❮</a>
+            <a class="next" onclick="plusSlides(1)">❯</a>
+
         </div>
 
-        <div class="container">
-            <label><b>Username</b></label>
-            <input type="text" id="username" placeholder="Enter Username" required>
-
-            <label><b>Password</b></label>
-            <input type="password" id="password" placeholder="Enter Password" required>
-            <button id="loginBt" onclick="validate()"></button>
-
-            <!--<div class="g-signin2" data-onsuccess="onSignIn" onclick="onSignIn()" id="loginBt"></div>-->
+        <div class="dot-container">
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+            <span class="dot" onclick="currentSlide(4)"></span>
         </div>
-
     </form>
 </div>
-<div><h2><a href="http://localhost:8080/main.html">Book A Movie</a></h2></div>
-<script type="text/javascript" src="js/login.js"></script>
 
-<script>
-    let modal = document.getElementById('login');
-    window.onclick = function (event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-    }
-</script>
 
+
+<!--<button id="signinButton">Link my Google Calendar</button>-->
+<!-- Axios is optional, include it if you want to use it instead of $.ajax (POST) -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
+
+<!-- This will contain your application's javascript code-->
+<script src="/main.js" defer></script>
+
+<script type="text/javascript" src="js/info.js"></script>
 </body>
 </html>

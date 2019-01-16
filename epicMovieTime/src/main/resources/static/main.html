@@ -8,84 +8,89 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-
-<div class="month">
-    <ul>
-        <li class="prev">&#10094;</li>
-        <li class="next">&#10095;</li>
-        <li>
-            December<br>
-            <span style="font-size:18px">2018</span>
-        </li>
-    </ul>
+<div id='eventCal'>
+    <div class="calendar-layout">
+        <calendar
+                :day-key='selectedDisplayOption'>
+        </calendar>
+    </div>
 </div>
 
-<ul class="weekdays">
-    <li>Mo</li>
-    <li>Tu</li>
-    <li>We</li>
-    <li>Th</li>
-    <li>Fr</li>
-    <li>Sa</li>
-    <li>Su</li>
-</ul>
-
-<ul class="days">
-    <li>1</li>
-    <li>2</li>
-    <li>3</li>
-    <li>4</li>
-    <li>5</li>
-    <li>6</li>
-    <li>7</li>
-    <li>8</li>
-    <li>9</li>
-    <li>10</li>
-    <li>11</li>
-    <li><span class="active">12</span></li>
-    <li>13</li>
-    <li>14</li>
-    <li>15</li>
-    <li>16</li>
-    <li>17</li>
-    <li>18</li>
-    <li>19</li>
-    <li>20</li>
-    <li>21</li>
-    <li>22</li>
-    <li>23</li>
-    <li>24</li>
-    <li>25</li>
-    <li>26</li>
-    <li>27</li>
-    <li>28</li>
-    <li>29</li>
-    <li>30</li>
-    <li>31</li>
-</ul>
+<template id='calendar'>
+    <div class='calendar'>
+        <div id="pre-formatted" class='header'>
+            <a class='arrow' @click='movePreviousYear'>&laquo;</a>
+            <a class='arrow' @click='movePreviousMonth'>&lsaquo;</a>
+            <span class='title' @click='moveThisMonth'>
+        {{ header.label }}
+      </span>
+            <a class='arrow' @click='moveNextMonth'>&rsaquo;</a>
+            <a class='arrow' @click='moveNextYear'>&raquo;</a>
+        </div>
+        <div class='weekdays'>
+            <div class='weekday' v-for='weekday in weekdays'>
+                {{ weekday.label_3 }}
+            </div>
+        </div>
+        <div class='week' v-for='week in weeks'>
+            <div
+                    class='day'
+                    :class='{ today: day.isToday, "not-in-month": !day.inMonth }'
+                    v-for='day in week'>
+                {{ day[dayKey] }}
+            </div>
+        </div>
+    </div>
+</template>
 
 <div class="navbar">
-    <a href="#Logout" onclick="signOut();" style="width:auto;">Logout</a>
-    <p>|</p>
     <a href="#Search" onclick=openSearch();>Search</a>
-    <a href="info.html" id="info">Info</a>
+    <p>|</p>
+    <a href="#Booked" onclick="app.bookInfo(), openEvents();" style="width:auto;" >Booked Events</a>
+    <a href="#Info" onclick="document.getElementById('generalInfo').style.display='block'" style="width:auto;" id="info">Info</a>
 </div>
 <div>
 
 </div>
 <div class="anotherone">
-    <h2  v-if="mainMovieTitle===true">Movie to book:{{bookMovie}}</h2>
-    <form>
-        <label>Start Time:</label>
-        <input type="datetime-local" required v-model="startDate" id="start"
+    <form v-if="mainMovieTitle===true" id="time" align="center">
+        <label id="startTxt">Start Time: </label>
+        <input type="datetime-local" required v-model="startDate" id="startDate"
                value="2018-07-22"
                min="2018-01-01" max="2018-12-31">
-        <label>End Time:</label>
-        <input type="datetime-local" required v-model="endDate" id="end" value="2018-07-22"
+        <label id="endTxt">End Time: </label>
+        <input type="datetime-local" required v-model="endDate" id="endDate" value="2018-07-22"
                min="2018-01-01" max="2018-12-31">
-        <button v-on:mouseup="bookInfo" v-on:mousedown="bookCalendar" type="button">BOOK</button>
+        <button v-on:mouseup="calendarSuggestion" v-on:mousedown="bookCalendar" id="calendarBookBt" type="button">Confirm</button>
         <h4>{{bookingMessage}}</h4>
-    </form>
+    </form><br><br><br><br><br><br>
+    <ul v-if="mainMovieTitle===true">
+        <img v-bind:src="movieSearch.Poster" align="left" style="margin-right: 10px" height="210" width="210">
+        <li>Title: {{ movieSearch.Title }}</li>
+        <li>Released: {{ movieSearch.Year }}</li>
+        <li>Genre: {{ movieSearch.Genre }}</li>
+        <li>Runtime: {{ movieSearch.Runtime }}</li>
+        <li>Plot: {{ movieSearch.Plot}}</li>
+        <li>Country: {{ movieSearch.Country }}</li>
+        <li>IMDB Rating: {{movieSearch.imdbRating}}</li>
+        <br><br><br><br><br>
+    </ul>
+    <div id="Booked" class="overlayBook">
+        <div class="overlay-content">
+            <span class="closebtnBook" onclick="closeEvents()" title="Close Overlay">×</span>
+            <h2 id="events">Booked events: </h2>
+            <ul>
+                <li v-for="resp in bookResponse"><br>
+                    <h4 id="bookedResult">{{resp}}</h4>
+                </li>
+            </ul>
+            <video autoplay muted loop>
+                <source src="image/universal.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+<div>
+
 <div>
     <button v-on:mousedown="calendarSuggestion" type="button">Show Suggested Dates</button>
     <h2>Suggested Dates </h2>
@@ -98,11 +103,7 @@
             </ul>
         </li>
     </ul>
-
-
-
-
-
+</div>
     <div id="Search" class="overlay">
         <span class="closebtn" onclick="closeSearch()" title="Close Overlay">×</span>
         <div class="overlay-content">
@@ -112,7 +113,7 @@
                     <button v-if="showBook===true" v-on:mousedown="bookInfo" v-on:click="mainMovieTitle=true, bookMovie = movieSearch.Title" onclick="closeSearch()" type="button" id="bookBt"></button>
                     <ul v-if="showSearchList===true" class="search-group">
                         <li v-for="movie in movies">
-                            <br><br><br><p id="autoResult" v-on:mouseup="movieInfo" v-on:mousedown="mainSearch= movie.Title, search= movie.imdbID" >{{movie.Title}}</p>
+                            <br><br><br><p id="autoResult" v-on:mouseup="movieInfo" v-on:mousedown="mainSearch= movie.Title, search= movie.imdbID" >{{movie.Title + " | " + movie.Year}}</p>
                         </li>
                     </ul>
                     <br><br><br>
@@ -140,11 +141,18 @@
     function closeSearch() {
         document.getElementById("Search").style.display = "none";
     }
+    function openEvents() {
+        document.getElementById("Booked").style.display = "block";
+    }
+
+    function closeEvents() {
+        document.getElementById("Booked").style.display = "none";
+    }
 </script>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://vuejs.org/js/vue.js"></script>
-<script type="text/javascript" src="js/search.js"></script>
+<script type="text/javascript" src="js/Calendar.js"></script>
 
 <script>
     var app = new Vue({

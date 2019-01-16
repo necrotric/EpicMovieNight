@@ -92,3 +92,82 @@ html, body {height: 100%; width: 100%; font-size: 1rem; font-family: 'Exo', sans
 #info {
     float: right;
 }
+
+.slideshow-container {
+    position: relative;
+    background: #333;
+    margin-top: -5px;
+    width: 1000px;
+    left: -110%;
+}
+
+/* Slides */
+.mySlides {
+    display: none;
+    padding: 80px;
+    width: 800px;
+    text-align: center;
+    color: whitesmoke;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    margin-top: -30px;
+    padding: 16px;
+    color: #888;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+    position: absolute;
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+    color: white;
+}
+
+/* The dot/bullet/indicator container */
+.dot-container {
+    text-align: center;
+    padding: 10px;
+    background: #ddd;
+    left: -100%;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 0px;
+    background-color: #bbb;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+/* Add a background color to the active dot/circle */
+.active, .dot:hover {
+    background-color: #717171;
+}
+
+/* Add an italic font style to all quotes */
+q {font-style: italic;}
+
+/* Add a blue color to the author */
+.target {color: cornflowerblue;}
+
+.slideshow-container span {
+    color: whitesmoke;
+}

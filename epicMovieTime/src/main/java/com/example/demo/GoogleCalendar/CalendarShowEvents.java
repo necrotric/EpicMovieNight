@@ -17,9 +17,11 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 public class CalendarShowEvents {
     private UserOauthRepository repository;
+
     @Autowired
     public CalendarShowEvents(UserOauthRepository repository) {
         this.repository = repository;
@@ -38,56 +40,92 @@ public class CalendarShowEvents {
 
         for (UserOauth user : allUsers) {
             System.out.println(user.getEmail());
-                    // Use an accessToken previously gotten to call Google's API
-        GoogleCredential credential = new GoogleCredential().setAccessToken(user.getAccessToken());
+            // Use an accessToken previously gotten to call Google's API
+            GoogleCredential credential = new GoogleCredential().setAccessToken(user.getAccessToken());
+            //        System.out.println("Here is credentials:" + credential);
+            Calendar calendar =
+                    new Calendar.Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance(), credential)
+                            .setApplicationName("Movie Night")
+                            .build();
+
+            DateTime now = new DateTime(System.currentTimeMillis());
+            Events events = null;
+            try {
+                events = calendar.events().list("primary")
+                        .setMaxResults(100)
+                        .setTimeMin(now)
+                        .setOrderBy("startTime")
+                        .setSingleEvents(true)
+                        .execute();
+            } catch (
+                    IOException e) {
+                e.printStackTrace();
+            }
+
+            List<Event> items = events.getItems();
+            if (items.isEmpty()) {
+                System.out.println("No upcoming events found.");
+            } else {
+                System.out.println("Upcoming events");
+                for (Event event : items) {
+                    DateTime start = event.getStart().getDateTime();
+                    if (start == null) { // If it's an all-day-event - store the date instead
+                        start = event.getStart().getDate();
+                    }
+                    DateTime end = event.getEnd().getDateTime();
+                    if (end == null) { // If it's an all-day-event - store the date instead
+                        end = event.getStart().getDate();
+                    }
+                    System.out.printf("%s (%s) -> (%s)\n", event.getSummary(), start, end);
+                }
+            }
+            allEvents.add(items);
+            System.out.println(allEvents);
+        }
+        return allEvents;
+    }
+
+    public ArrayList<List<Event>> showBookedEvents() throws IOException, GeneralSecurityException {
+        UserOauth allUsers = repository.findOneUserOauthByEmail("epicmovienight12@gmail.com");
+
+        GoogleCredential credential = new GoogleCredential().setAccessToken(allUsers.getAccessToken());
         //        System.out.println("Here is credentials:" + credential);
         Calendar calendar =
                 new Calendar.Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance(), credential)
                         .setApplicationName("Movie Night")
                         .build();
 
-    DateTime now = new DateTime(System.currentTimeMillis());
-    Events events = null;
-        try
 
-    {
-        events = calendar.events().list("primary")
-                .setMaxResults(100)
-                .setTimeMin(now)
-                .setOrderBy("startTime")
-                .setSingleEvents(true)
-                .execute();
-    } catch(
-    IOException e)
+        DateTime now = new DateTime(System.currentTimeMillis());
+        ArrayList<String> alotUsers = new ArrayList<>();
+        alotUsers.add("epicmovienight12@gmail.com");
+        ArrayList<List<Event>> allEvents = new ArrayList<>();
+        for (int i = 0; i < alotUsers.size(); i++) {
 
-    {
-        e.printStackTrace();
-    }
 
-    List<Event> items = events.getItems();
-        if(items.isEmpty())
+            Events events = calendar.events().list(alotUsers.get(i))
+                    .setMaxResults(10)
+                    .setTimeMin(now)
+                    .setOrderBy("startTime")
+                    .setSingleEvents(true)
+                    .execute();
 
-    {
-        System.out.println("No upcoming events found.");
-    } else
-
-    {
-        System.out.println("Upcoming events");
-        for (Event event : items) {
-            DateTime start = event.getStart().getDateTime();
-            if (start == null) { // If it's an all-day-event - store the date instead
-                start = event.getStart().getDate();
+            List<Event> items = events.getItems();
+            if (items.isEmpty()) {
+                System.out.println("No upcoming events found.");
+            } else {
+                System.out.println("Upcoming events");
+                for (Event event : items) {
+                    DateTime start = event.getStart().getDateTime();
+                    if (start == null) {
+                        start = event.getStart().getDate();
+                    }
+                    System.out.printf("%s (%s)\n", event.getSummary(), start);
+                }
             }
-            DateTime end = event.getEnd().getDateTime();
-            if (end == null) { // If it's an all-day-event - store the date instead
-                end = event.getStart().getDate();
-            }
-            System.out.printf("%s (%s) -> (%s)\n", event.getSummary(), start, end);
-        }
-    }
-        allEvents.add(items);
-            System.out.println(allEvents);
+            allEvents.add(items);
         }
         return allEvents;
+    }
 }
-}
+
