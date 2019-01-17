@@ -89,7 +89,6 @@ public class CalendarShowEvents {
         UserOauth allUsers = repository.findOneUserOauthByEmail("epicmovienight12@gmail.com");
 
         GoogleCredential credential = new GoogleCredential().setAccessToken(allUsers.getAccessToken());
-        //        System.out.println("Here is credentials:" + credential);
         Calendar calendar =
                 new Calendar.Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance(), credential)
                         .setApplicationName("Movie Night")

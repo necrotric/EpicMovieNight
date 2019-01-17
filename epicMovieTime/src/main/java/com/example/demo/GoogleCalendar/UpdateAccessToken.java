@@ -18,7 +18,7 @@ public class UpdateAccessToken {
                     new NetHttpTransport(), JacksonFactory.getDefaultInstance(), refreshCode, CLIENT_ID, CLIENT_SECRET )
                     .execute();
 
-            System.out.println(new GoogleCredential().setAccessToken(response.getAccessToken()));
+//            System.out.println(new GoogleCredential().setAccessToken(response.getAccessToken()));
             return new GoogleCredential().setAccessToken(response.getAccessToken());
         }
         catch( Exception ex ){

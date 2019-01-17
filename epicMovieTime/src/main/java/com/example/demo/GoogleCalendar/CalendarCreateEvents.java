@@ -3,7 +3,6 @@ package com.example.demo.GoogleCalendar;
 import com.example.demo.Classes.UserOauth;
 import com.example.demo.Repository.UserOauthRepository;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
@@ -35,7 +34,7 @@ public class CalendarCreateEvents {
 
     public void gogo(String startTime, String endTime, String summary) throws IOException, GeneralSecurityException, IOException {
         List<UserOauth> epicAccessToken = repository.findUserOauthByEmail("epicmovienight12@gmail.com");
-        System.out.println(epicAccessToken.get(0).getAccessToken());
+
 
         GoogleCredential credential = new GoogleCredential().setAccessToken(epicAccessToken.get(0).getAccessToken());
 
@@ -44,12 +43,12 @@ public class CalendarCreateEvents {
                         .setApplicationName("Movie Night")
                         .build();
 
-        // System.out.println(userService.getAllUsers().get(0).getEmail()+ " IT IS IN CREATE EVENTS");
+
         Event event = new Event()
                 .setSummary(summary)
                 .setLocation("Center of the universe")
                 .setDescription("A chance to be in the middle ... litterly");
-        //"2018-12-20T09:00:00-07:00"
+
         DateTime startDateTime = new DateTime(startTime + "+01:00");
         EventDateTime start = new EventDateTime()
                 .setDateTime(startDateTime)
@@ -84,7 +83,7 @@ public class CalendarCreateEvents {
 
         String calendarId = "primary";
         event = calendar.events().insert(calendarId, event).execute();
-        System.out.printf("Event created: %s\n", event.getHtmlLink());
+//        System.out.printf("Event created: %s\n", event.getHtmlLink());
     }
 }
 

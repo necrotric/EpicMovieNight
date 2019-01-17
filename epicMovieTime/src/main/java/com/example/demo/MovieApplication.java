@@ -45,12 +45,9 @@ public class MovieApplication {
     }
     public static void main(String[] args) {
         SpringApplication.run(MovieApplication.class, args);
-        asd();
         Runnable runnable = new Runnable() {
             public void run() {
-                // task to run goes here
-                asd();
-              	        System.out.println("Hello !!");
+                updateHourly();
                 }
         };
         ScheduledExecutorService service = Executors
@@ -58,7 +55,7 @@ public class MovieApplication {
         service.scheduleAtFixedRate(runnable, 0, 59, TimeUnit.MINUTES);
     }
 
-    public static void asd(){
+    public static void updateHourly(){
         controller.updateAccessToken();
     }
 }
