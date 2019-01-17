@@ -31,6 +31,7 @@ html, body {height: 100%; width: 100%; font-size: 1rem; font-family: 'Exo', sans
     background-position: center center;
     background-size: cover;
 }
+
 .slide span {
     background: rgba(0, 0, 0, 0.3);
     border-radius: 0 5vh 5vh 0;
@@ -98,10 +99,9 @@ html, body {height: 100%; width: 100%; font-size: 1rem; font-family: 'Exo', sans
     background: #333;
     margin-top: -5px;
     width: 1000px;
-    left: -110%;
+    left: -80%;
 }
 
-/* Slides */
 .mySlides {
     display: none;
     padding: 80px;
@@ -110,7 +110,6 @@ html, body {height: 100%; width: 100%; font-size: 1rem; font-family: 'Exo', sans
     color: whitesmoke;
 }
 
-/* Next & previous buttons */
 .prev, .next {
     cursor: pointer;
     position: absolute;
@@ -125,28 +124,24 @@ html, body {height: 100%; width: 100%; font-size: 1rem; font-family: 'Exo', sans
     user-select: none;
 }
 
-/* Position the "next button" to the right */
 .next {
     position: absolute;
     right: 0;
     border-radius: 3px 0 0 3px;
 }
 
-/* On hover, add a black background color with a little bit see-through */
 .prev:hover, .next:hover {
     background-color: rgba(0,0,0,0.8);
     color: white;
 }
 
-/* The dot/bullet/indicator container */
 .dot-container {
     text-align: center;
     padding: 10px;
     background: #ddd;
-    left: -100%;
+    left: -50%;
 }
 
-/* The dots/bullets/indicators */
 .dot {
     cursor: pointer;
     height: 15px;
@@ -157,15 +152,12 @@ html, body {height: 100%; width: 100%; font-size: 1rem; font-family: 'Exo', sans
     transition: background-color 0.6s ease;
 }
 
-/* Add a background color to the active dot/circle */
 .active, .dot:hover {
     background-color: #717171;
 }
 
-/* Add an italic font style to all quotes */
 q {font-style: italic;}
 
-/* Add a blue color to the author */
 .target {color: cornflowerblue;}
 
 .slideshow-container span {
@@ -178,18 +170,4 @@ q {font-style: italic;}
 
 #mainButton {
     display: none;
-}
-
-#Available h3 {
-    position: relative;
-    color: whitesmoke;
-    left: -7%;
-    font-size: 24px;
-}
-
-#AvailableDates {
-    position: relative;
-    color: whitesmoke;
-    left: -7%;
-    font-size: 24px;
 }

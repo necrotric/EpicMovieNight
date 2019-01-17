@@ -338,3 +338,17 @@ input[type=button] {
 #pre-formatted {
     white-space: pre;
 }
+
+#bookedResult{
+    height: 100%;
+    overflow: auto;
+}
+
+#AvailableDates {
+    margin-left: -10%;
+    color: whitesmoke;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    font-size: 24px;
+}

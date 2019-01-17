@@ -29,30 +29,69 @@
             <span onclick="document.getElementById('generalInfo').style.display='none'" class="close" title="Close">&times;</span>
 
             <div class="mySlides">
-                <q>OAuth is a standard that applications (and the developers who love them) can use to provide client applications with “secure delegated access”. OAuth works over HTTP and authorizes Devices, APIs, Servers and Applications with access tokens rather than credentials, which we will go over in depth below.</q>
-                <li>Fördelar: </li>
-                <li>Nackdelar: </li>
+                <q>OAuth is a sAundard that applications (and the developers who love them) can use to provide client applications with “secure delegated access”. OAuth works over HTTP and authorizes Devices, APIs, Servers and Applications with access tokens rather than credentials, which we will go over in depth below.</q><br>
+                <br><h3>Fördelar: </h3>
+                <li>Ease - “Sign in with your Google account” button. Success! This is an incredibly easy OAuth alternative.</li>
+                <li>Time - If the sites you frequently visit support OAuth then you only need to create one account for the majority of your online hangout spots.</li>
+                <li>Networking - OAuth allows you to use one account to comment on several different sites, letting friends and readers from all sites trace you back to your preferred profile page.</li>
+                <li>Privacy - OAuth lets you purchase items online at many sites without ever letting them have access to your private financial details, this means every outside site you go to can’t data-mine your user information and sell it against your will!</li>
+                <li>Security - Since the advent of OAuth 2.0 – which is now the standard model – all OAuth data transfers must take place on SSL (Secure Sockets Layer) to ensure the most trusted cryptography industry protocols are being used to keep data as safe as possible.</li>
+                <li>Control - OAuth give users the power to allow sites limited access to their data.</li>
+                <li>Traffic - Chances at retaining new readers and having them become return visitors, which is great for all online businesses.</li><br>
+
+                <h3>Nackdelar: </h3>
+                <li>Lack of anonymity - If you use Facebook to comment on a different site, they can not only see your Twitter avatar icon, but also click on you to see who your online friends are. It’s a choice the user has to be comfortable making, and with most Internet users still preferring to make comments anonymously on the Web, it’s a choice many still aren’t prepared to make yet. Needing to make anonymous alternate accounts can be just as annoying as having to toggle dozens of site privacy settings each month.</li>
+                <li>Phishing - When performed correctly, OAuth should be safe, but the act of asking users to login to a different site really quick can train us to be careless and fool less educated net users into thinking this practice is always safe. Many unfortunate users will inevitably fall victim to a convincing looking popup ad and have their data phished. Which leads to . . .</li>
+                <li>Many eggs in one basket - If you choose to use a central hub to connect to all your other favorite sites, and the central account becomes hacked, or you simply choose to close the account, then the serious repercussions are felt across several sites instead of just one.</li>
+                <li>Data misuse - It’s great that OAuth limits new sites from obtaining all of your user data and selling it against your will, but unfortunately one of the largest supporters of OAuth is already guilty of these procedures. Facebook has certainly set bad standards for customer privacy abuse in the past, so it’s unsettling that it will now have access to even more user data across several sites.</li>
                 <p class="target">- OAuth2</p>
             </div>
 
             <div class="mySlides">
-                <q>OpenID Connect is a simple identity layer on top of the OAuth 2.0 protocol, which allows computing clients to verify the identity of an end-user based on the authentication performed by an authorization server, as well as to obtain basic profile information about the end-user in an interoperable and REST-like manner.</q>
-                <li>Fördelar: </li>
-                <li>Nackdelar: </li>
+                <q>OpenID Connect is a simple identity layer on top of the OAuth 2.0 protocol, which allows computing clients to verify the identity of an end-user based on the authentication performed by an authorization server, as well as to obtain basic profile information about the end-user in an interoperable and REST-like manner.</q><br>
+                <br><h3>Fördelar: </h3>
+                <li>Simple to make your own website into an OpenID provider.</li>
+                <li>Saves you time when trying new sites and features – You already know your namespace is available.</li>
+                <li>Desktop support.</li>
+                <li>Easy to maintain multiple identities – All you need are different URLs.</li>
+                <li>Decentralized – Not owned by any one company (MS Passport) or standards body (Liberty Alliance).</li><br>
+
+                <h3>Nackdelar: </h3>
+                <li>The sign-in process can be very confusing and jarring to users – It requires going to another site – not the normal stay-on-one-site-sign-in system that people are used to. (It’s about as user-friendly as when you learned ‘http://’)</li>
+                <li>Security Concerns have not been fully resolved – Because of the reliance on a second site for sign-in, OpenID is open to phishing attacks.</li>
+                <li>Unrealized loss of Anonymity – Currently, each site where you have a login only knows what you tell them about yourself. With OpenID, even thought you can maintain multiple identities, you are inherently tying a lot of services together and thus losing some amount of anonymity.</li>
                 <p class="target">- OpenID Connect</p>
             </div>
 
             <div class="mySlides">
-                <q>JSON Web Token (JWT) is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is digitally signed.</q>
-                <li>Fördelar: </li>
-                <li>Nackdelar: </li>
+                <q>JSON Web Token (JWT) is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is digitally signed.</q><br>
+                <br><h3>Fördelar: </h3>
+                <li>No Database Table - This implies fewer DB queries, which implies faster response time.</li>
+                <li>Simpler to use if careful : If your architecture doesn’t user client Sessions and your security basics are clear, the development time in case of JWT is faster using the existing libraries.</li>
+                <li>Used across services : You can have one authorization server that deals with the Login/Registration and generates the token. e.g. a user needs to be connected to the intranet to login but once done, the public servers can verify and proceed on.</li>
+                <li>Similar setup can be used for OAuth implementation.</li>
+                <li>No connection between the the auth-server and the rest of the servers other than the pre-defined public key.</li><br>
+
+                <h3>Nackdelar: </h3>
+                <li>Compromised Secret Key - The best and the worst thing about JWT is that it relies on just one Key. Consider that the Key is leaked by a careless or a rogue developer/administrator, the whole system is compromised!</li>
+                <li>Cannot manage client from the server - e.g Ask user to logout by cleaning up the cookies, but we cannot ask them to do so every time.</li>
+                <li>Crypto-algo can be deprecated - JWT relies completely on the Signing algorithm.</li>
+                <li>Data Overhead - The size of the JWT token will be more than that of a normal Session token.A 1 KB JWT token implies each request will have 1KB over-head upload which is really bad in cases of low speed net connectivity.</li>
+                <li>Complicated to understand - JWT uses cryptographic Signature algorithms to verify the data and get the user-id from the token. Understanding the Signing Algo in itself requires basics of cryptography.</li>
                 <p class="target">- JWT</p>
             </div>
 
             <div class="mySlides">
-                <q>HTTPS stands for Hyper Text Transfer Protocol Secure. It is a protocol for securing the communication between two systems e.g. the browser and the web server. HTTPS transfers data between the browser and the web server in the hypertext format, whereas https transfers data in the encrypted format. Thus, https prevents hackers from reading and modifying the data during the transfer between the browser and the web server. Even if hackers manage to intercept the communication, they will not be able to use it because the message is encrypted. HTTPS established an encrypted link between the browser and the web server using the Secure Socket Layer (SSL) or Transport Layer Security (TLS) protocols.</q>
-                <li>Fördelar: </li>
-                <li>Nackdelar: </li>
+                <q>HTTPS stands for Hyper Text Transfer Protocol Secure. It is a protocol for securing the communication between two systems e.g. the browser and the web server. HTTPS transfers data between the browser and the web server in the hypertext format, whereas https transfers data in the encrypted format. Thus, https prevents hackers from reading and modifying the data during the transfer between the browser and the web server. Even if hackers manage to intercept the communication, they will not be able to use it because the message is encrypted. HTTPS established an encrypted link between the browser and the web server using the Secure Socket Layer (SSL) or Transport Layer Security (TLS) protocols.</q><br>
+                <br><h3>Fördelar: </h3>
+                <li>Your information remains confidential and secure because only your browser and the server can decrypt the traffic.</li>
+                <li>Resources to help webmasters prevent and fix security breaches on their sites.</li>
+                <li>Although HTTPS used to be quite expensive to implement, it is now available at no extra cost compared with traditional HTTP.</li><br>
+
+                <h3>Nackdelar: </h3>
+                <li>Website speed can decrease because of the complexity and math involved to encrypt and decrypt.</li>
+                <li>Annoying to generate keys, install intermediate certificates and can be a pain if your SSL certificate expires.</li>
+                <li>Google will send errors to your website users even if you are not using it.</li>
                 <p class="target">- HTTPS</p>
             </div>
 
@@ -81,7 +120,7 @@
 
 <script>
     function signOut() {
-        var auth2 = gapi.auth2.getAuthInstance();
+        let auth2 = gapi.auth2.getAuthInstance();
         auth2.signOut().then(function () {
             console.log('User signed out.');
         });
