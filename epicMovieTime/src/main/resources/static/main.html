@@ -97,6 +97,16 @@
         </div>
     </div>
     <div>
+        <button v-on:click="calendarSuggestion">Show Suggested Dates</button>
+        <ul v-for="resp in calendarRespone">
+            <ul v-for="result in resp">
+                <li>{{result.year}}/{{result.monthOfYear}}/{{result.dayOfMonth}} Hour
+                    {{result.hourOfDay}}:00
+                </li>
+            </ul>
+        </ul>
+    </div>
+    <div>
 
         <div id="Available" class="overlayBook">
             <div class="overlay-content">
